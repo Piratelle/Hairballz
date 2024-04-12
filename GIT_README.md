@@ -15,7 +15,7 @@ Basic steps to get started with Unity, Git, and GitHub!
 + Copy your new repository's .git url (found in the **Code** dropdown on the main repository page). Back in Git CMD, use that url as the **[url]** argument in **git remote add origin [url]**.
 + In Git CMD, use **git pull origin main** to pull down the GitHub commit - and most importantly, that .gitignore file! This has to happen *before* you add any local files, or the .gitignore will not work correctly.
 + In Git CMD, use **git add .** to stage all of the un-ignored local files. Then use **git commit -am "Initial local commit."** to create a complete *local* commit.
-+ Still in Git CMD, use **git push origin main** to push that local commit back to GitHub and finish linking your local branch to your GitHub branch. If you refresh the GitHub repository page, you should see more folders (particularly **Assets**) and your commit message.
++ Still in Git CMD, use **git push --set-upstream origin main** to push that local commit back to GitHub and finish linking your local branch to your GitHub branch. If you refresh the GitHub repository page, you should see more folders (particularly **Assets**) and your commit message.
 
 ## Cloning the Project (Collaborators)
 + Make sure that you have access to the GitHub repository - the Repository Creator will need to add you as a Collaborator before you can push commits.
