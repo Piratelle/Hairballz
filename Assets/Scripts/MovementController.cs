@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MovementController : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class MovementController : MonoBehaviour
     public AnimatedSpriteRenderer spriteRendererRight;
     private AnimatedSpriteRenderer activeSpriteRenderer;
     public AnimatedSpriteRenderer spriteRendererDeath;
+
+    public AudioSource deathAudioSource; // Assign the AudioSource component in the Inspector
+    public AudioClip deathSound; // Assign the death sound clip in the Inspector
+
 
     private void Awake() 
     {
@@ -88,12 +93,20 @@ public class MovementController : MonoBehaviour
         spriteRendererRight.enabled = false;
         spriteRendererDeath.enabled = true;
 
+        // Play the death sound
+        if (deathAudioSource != null && deathSound != null)
+        {
+            deathAudioSource.clip = deathSound;
+            deathAudioSource.Play();
+        }
+
         Invoke(nameof(OnDeathSequenceEnded), 1.25f);
     }
 
     private void OnDeathSequenceEnded()
     {
         gameObject.SetActive(false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         //GameManager.Instance.CheckWinState();
     }
 
