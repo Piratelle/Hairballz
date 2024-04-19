@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 24
-  productGUID: 4109c30404bb6654094e5616ab09f962
+  productGUID: c5a6d7983dd363d4c86640f11923c0b1
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Hairballz
+  productName: My project (10)
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -769,11 +769,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: f812c5ca-fe2b-40dd-ba1c-ecc18fe7d2c3
+  cloudProjectId: dbd2cfaa-d8a2-443e-ab15-63763a47b17a
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Hairballz
-  organizationId: extracookie
+  projectName: My project (10)
+  organizationId: david-granda
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
