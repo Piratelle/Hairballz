@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 747852806}
   - component: {fileID: 747852805}
   - component: {fileID: 747852807}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,9 +340,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcedd3a0ce018a34e860810180f5dbc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapWidth: 15
+  mapHeight: 13
+  baseSide: 2
+  gridWidth: 7
+  gridHeight: 5
   solidWall: {fileID: 11400000, guid: ba927c704d3753441b0ce5e8873604f8, type: 2}
   destructWall: {fileID: 11400000, guid: f0705346e681b694dac310f6aff12c2c, type: 2}
   path: {fileID: 11400000, guid: f8590e6e1511ceb4795ea9cdd0bf05d6, type: 2}
+  baseTiles:
+  - {fileID: 11400000, guid: b07229c0dbb64e841b9f7b5321a92454, type: 2}
 --- !u!1 &1653980178
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1653980180}
   - component: {fileID: 1653980179}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
