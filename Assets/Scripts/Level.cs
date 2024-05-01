@@ -9,6 +9,7 @@ public class Level : MonoBehaviour
     static System.Random RND = new System.Random();
 
     // set map variables
+    [Header("Map")]
     [SerializeField] private int mapWidth; // cannot be smaller than 2 (baseSide + 1)
     [SerializeField] private int mapHeight; // cannot be smaller than 2 (baseSide + 1)
     [SerializeField] private int baseSide; // cannot be smaller than 1
@@ -16,11 +17,13 @@ public class Level : MonoBehaviour
     [SerializeField] private int gridHeight; // cannot exceed mapHeight - 2!
 
     // Set tile pre-fabs in Unity editor
+    [Header("Tiles")]
     [SerializeField] private Tile solidWall;
     [SerializeField] private Tile destructWall;
     [SerializeField] private Tile path;
     [SerializeField] private Tile[] baseTiles;
 
+    [Header("Behavior")]
     [SerializeField] private float density = 0.6f;
 
     private Tilemap tilemap;
