@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlayGame()
+
+    [SerializeField] private Button playButton;
+    [SerializeField] private Button quitButton;
+    private void Awake()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+        playButton.onClick.AddListener(()=>{
+            //GameMultiplayer.playMultiplayer = true;
+            Loader.Load(Loader.Scene.LobbyScene);
+        });
+        quitButton.onClick.AddListener(()=>{
+            Application.Quit();
+        });
     }
 
-    public void QuitGame()
-    {
-        Debug.Log("QUIT");
-        Application.Quit();
-    }
+    //Time.timeScale = 1f;
+    
 }

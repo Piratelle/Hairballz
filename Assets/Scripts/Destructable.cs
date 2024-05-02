@@ -1,5 +1,7 @@
 using UnityEngine;
+//using Unity.Netcode;
 
+using Unity.VisualScripting;
 public class Destructable : MonoBehaviour
 {
     public float destructionTime = 1f;

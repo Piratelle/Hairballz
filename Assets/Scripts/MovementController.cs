@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
-public class MovementController : MonoBehaviour
+public class MovementController : NetworkBehaviour
 {
     public new Rigidbody2D rigidbody { get; private set; }
     private Vector2 direction = Vector2.down;
@@ -23,6 +24,9 @@ public class MovementController : MonoBehaviour
     public AudioClip deathSound; // Assign the death sound clip in the Inspector
 
 
+    public NetworkVariable<int> animationState = new NetworkVariable<int>(0);
+
+
     private void Awake() 
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -31,32 +35,71 @@ public class MovementController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(inputUp))
+        if(IsOwner)
+        {
+            if (Input.GetKey(inputUp))
         {
             SetDirection(Vector2.up, spriteRendererUp);
+            SetAnimationState(1);
         }
         else if (Input.GetKey(inputDown))
         {
             SetDirection(Vector2.down, spriteRendererDown);
+            SetAnimationState(2);
         }
         else if (Input.GetKey(inputLeft))
         {
             SetDirection(Vector2.left, spriteRendererLeft);
+            SetAnimationState(3);
         }
         else if (Input.GetKey(inputRight))
         {
             SetDirection(Vector2.right, spriteRendererRight);
+            SetAnimationState(4);
         }
         else 
         {
             SetDirection(Vector2.zero, activeSpriteRenderer);
+            SetAnimationState(0);
         }
+        }
+
+        if(IsClient)
+        {
+            if (Input.GetKey(inputUp))
+        {
+            SetDirection(Vector2.up, spriteRendererUp);
+            SetAnimationState(1);
+        }
+        else if (Input.GetKey(inputDown))
+        {
+            SetDirection(Vector2.down, spriteRendererDown);
+            SetAnimationState(2);
+        }
+        else if (Input.GetKey(inputLeft))
+        {
+            SetDirection(Vector2.left, spriteRendererLeft);
+            SetAnimationState(3);
+        }
+        else if (Input.GetKey(inputRight))
+        {
+            SetDirection(Vector2.right, spriteRendererRight);
+            SetAnimationState(4);
+        }
+        else 
+        {
+            SetDirection(Vector2.zero, activeSpriteRenderer);
+            SetAnimationState(0);
+        }
+        }
+        
+        
     }
 
     private void FixedUpdate() 
     {
         Vector2 position = rigidbody.position;
-        Vector2 translation = direction * speed * Time.fixedDeltaTime;
+        Vector2 translation = speed * Time.fixedDeltaTime * direction;
 
         rigidbody.MovePosition(position + translation);
     }
@@ -108,6 +151,15 @@ public class MovementController : MonoBehaviour
         gameObject.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         //GameManager.Instance.CheckWinState();
+    }
+
+    private void SetAnimationState(int newState)
+    {
+        if(!IsOwner)
+        {
+            return;
+        }
+        animationState.Value = newState;
     }
 
 }
