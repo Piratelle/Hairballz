@@ -567,7 +567,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7481377975502369015}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -661,6 +661,8 @@ MonoBehaviour:
   spriteRendererDeath: {fileID: 7481377975217564839}
   deathAudioSource: {fileID: 7481377975502369005}
   deathSound: {fileID: 8300000, guid: 61ec6fae4c20fb14ca03294f941fb8b3, type: 3}
+  animationState:
+    m_InternalValue: 0
 --- !u!114 &7481377975502369004
 MonoBehaviour:
   m_ObjectHideFlags: 0
