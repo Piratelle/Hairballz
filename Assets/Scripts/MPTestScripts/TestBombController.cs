@@ -31,6 +31,7 @@ public class TestBombController : NetworkBehaviour
     public Tilemap destructableTiles;
     public Destructable destructiblePrefab;
 
+    // maybe dont disable for not owner
     public override void OnNetworkSpawn() {
         base.OnNetworkSpawn();
         if(!IsOwner) {
@@ -63,7 +64,7 @@ public class TestBombController : NetworkBehaviour
     }
 
     // Modified from PlaceBomb() to be a ServerRpc
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void PlaceBombServerRpc(Vector2 position) {
         GameObject bomb = Instantiate(bombPrefeb, position, Quaternion.identity);
         StartCoroutine(FuseTimer(position));
@@ -72,7 +73,7 @@ public class TestBombController : NetworkBehaviour
         
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void DetonateServerRpc(Vector2 position) {
         TestExplosion explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
         explosion.SetActiveRenderer(explosion.start);
