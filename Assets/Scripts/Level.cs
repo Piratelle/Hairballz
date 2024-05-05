@@ -120,7 +120,26 @@ public class Level : MonoBehaviour
                 tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
             }
         }
-        
+
+        // build player bases
+        // 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
+        for (int p = 0; p < 4; p++)
+        {
+            ;
+            // learn player-specific traits
+            int left = (p % 2 == 0) ? xMin + 1 : xMax - (baseSide + 1);
+            int bottom = p < 2 ? yMax - (baseSide + 1) : yMin + 1;
+            Tile bgTile = baseTiles[p % baseTiles.Length];
+
+            for (int x = left; x < left + baseSide; x++)
+            {
+                for (int y = bottom; y < bottom + baseSide; y++)
+                {
+                    tilemap.SetTile(new Vector3Int(x, y, 0), bgTile);
+                }
+            }
+        }
+
         // build grid
         for (int x = xGridMin; x < xGridMax; x++)
         {
@@ -138,24 +157,6 @@ public class Level : MonoBehaviour
             }
         }
 
-        // build player bases
-        // 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
-        for (int p = 0; p < 4; p++)
-        {;
-            // learn player-specific traits
-            int left = (p % 2 == 0) ? xMin + 1 : xMax - (baseSide + 1);
-            int bottom = p < 2 ? yMax - (baseSide + 1): yMin + 1;
-            Tile bgTile = baseTiles[p % baseTiles.Length];
-
-            for (int x = left; x < left + baseSide; x++)
-            {
-                for (int y = bottom; y < bottom + baseSide; y++)
-                {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), bgTile);
-                }
-            }
-        }
-
         // now populate grid with randomized destructibles
         float maxSquares = eligibles.Count;
         if (maxSquares > 0) {
@@ -167,6 +168,9 @@ public class Level : MonoBehaviour
                 tilemap.SetTile(new Vector3Int(square.Item1, square.Item2, 0), destructWall);
             }
         }
+
+        // now handle the base-to-base and base-to-grid pathing
+
     }
     #endregion
 }
