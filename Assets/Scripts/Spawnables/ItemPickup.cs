@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class ItemPickup : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class ItemPickup : MonoBehaviour
         ExtraBomb,
         BlastRadius,
         SpeedIncrease,
+        Flare,
     }
 
     public ItemType type;
@@ -27,6 +29,10 @@ public class ItemPickup : MonoBehaviour
                 player.GetComponent<MovementController>().speed++;
                 break;
 
+            case ItemType.Flare:
+                StartCoroutine(LightItUp());
+                break;
+
         }
 
         Destroy(gameObject);
@@ -38,6 +44,17 @@ public class ItemPickup : MonoBehaviour
         {
             Debug.Log("This is a regular log message.");
             OnItemPickup(other.gameObject);
+        }
+    }
+
+    private IEnumerator LightItUp()
+    {
+        GameObject fogOfWar = GameObject.FindGameObjectWithTag("FogOfWar");
+        if (fogOfWar != null)
+        {
+            fogOfWar.SetActive(false);
+            yield return new WaitForSeconds(5);
+            fogOfWar.SetActive(true);
         }
     }
 }
