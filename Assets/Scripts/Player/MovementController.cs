@@ -1,10 +1,19 @@
+/* Originally from David, modified by Jonah
+ * Controls player movement
+ * Changes:
+ * - Start -> OnNetworkSpawn, 
+ * - Changed sprite animation process to animator; modularity more practical for networking (video: https://www.youtube.com/watch?v=hkaysu1Z-N8)
+ * - Condensed input/direction checking
+ */
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
 public class MovementController : NetworkBehaviour
 {
-    public new Rigidbody2D rigidbody { get; private set; }
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private GameObject camHolder;
     private Vector2 direction = Vector2.down;
     public float speed = 5f;
 
@@ -13,108 +22,54 @@ public class MovementController : NetworkBehaviour
     public KeyCode inputDown = KeyCode.S;
     public KeyCode inputRight = KeyCode.D;
 
-    public AnimatedSpriteRenderer spriteRendererUp;
-    public AnimatedSpriteRenderer spriteRendererLeft;
-    public AnimatedSpriteRenderer spriteRendererDown;
-    public AnimatedSpriteRenderer spriteRendererRight;
-    private AnimatedSpriteRenderer activeSpriteRenderer;
-    public AnimatedSpriteRenderer spriteRendererDeath;
+    public Animator animator;
+    public bool idle;
+    public bool isDead;
 
     public AudioSource deathAudioSource; // Assign the AudioSource component in the Inspector
     public AudioClip deathSound; // Assign the death sound clip in the Inspector
 
-
-    public NetworkVariable<int> animationState = new NetworkVariable<int>(0);
-
-
-    private void Awake() 
+    public override void OnNetworkSpawn() 
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        activeSpriteRenderer = spriteRendererDown;
+        base.OnNetworkSpawn();
+        if (!IsOwner) {
+            this.enabled = false;
+            this.camHolder.SetActive(false);
+            return;
+        }
+
+        Initialize();
+    }
+
+    // public void Start() {
+    //     if (rb == null) {
+    //         this.enabled = true;
+    //         Initialize();
+    //     }
+    // }
+
+    private void Initialize() {
+        isDead = false;
+        rb = GetComponent<Rigidbody2D>();
+        // attach main camera to player if owner (can also just set positions in update if works better)
+        Camera.main.transform.SetParent(rb.transform);
     }
 
     private void Update()
     {
-        if(IsOwner)
-        {
-            if (Input.GetKey(inputUp))
-        {
-            SetDirection(Vector2.up, spriteRendererUp);
-            SetAnimationState(1);
-        }
-        else if (Input.GetKey(inputDown))
-        {
-            SetDirection(Vector2.down, spriteRendererDown);
-            SetAnimationState(2);
-        }
-        else if (Input.GetKey(inputLeft))
-        {
-            SetDirection(Vector2.left, spriteRendererLeft);
-            SetAnimationState(3);
-        }
-        else if (Input.GetKey(inputRight))
-        {
-            SetDirection(Vector2.right, spriteRendererRight);
-            SetAnimationState(4);
-        }
-        else 
-        {
-            SetDirection(Vector2.zero, activeSpriteRenderer);
-            SetAnimationState(0);
-        }
-        }
-
-        if(IsClient)
-        {
-            if (Input.GetKey(inputUp))
-        {
-            SetDirection(Vector2.up, spriteRendererUp);
-            SetAnimationState(1);
-        }
-        else if (Input.GetKey(inputDown))
-        {
-            SetDirection(Vector2.down, spriteRendererDown);
-            SetAnimationState(2);
-        }
-        else if (Input.GetKey(inputLeft))
-        {
-            SetDirection(Vector2.left, spriteRendererLeft);
-            SetAnimationState(3);
-        }
-        else if (Input.GetKey(inputRight))
-        {
-            SetDirection(Vector2.right, spriteRendererRight);
-            SetAnimationState(4);
-        }
-        else 
-        {
-            SetDirection(Vector2.zero, activeSpriteRenderer);
-            SetAnimationState(0);
-        }
-        }
-        
-        
+        if (Input.GetKey(inputUp)) direction = Vector2.up;
+        else if (Input.GetKey(inputDown)) direction =  Vector2.down;
+        else if (Input.GetKey(inputLeft)) direction = Vector2.left;
+        else if (Input.GetKey(inputRight)) direction = Vector2.right;
+        else direction = Vector2.zero;
     }
 
     private void FixedUpdate() 
     {
-        Vector2 position = rigidbody.position;
+        Vector2 pos = rb.position;
         Vector2 translation = speed * Time.fixedDeltaTime * direction;
 
-        rigidbody.MovePosition(position + translation);
-    }
-
-    private void SetDirection(Vector2 newDirection, AnimatedSpriteRenderer spriteRenderer) 
-    {
-        direction = newDirection;
-
-        spriteRendererUp.enabled = spriteRenderer == spriteRendererUp;
-        spriteRendererLeft.enabled = spriteRenderer == spriteRendererLeft;
-        spriteRendererDown.enabled = spriteRenderer == spriteRendererDown;
-        spriteRendererRight.enabled = spriteRenderer == spriteRendererRight;
-
-        activeSpriteRenderer = spriteRenderer;
-        activeSpriteRenderer.idle = direction == Vector2.zero;
+        rb.MovePosition(pos + translation);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -130,12 +85,6 @@ public class MovementController : NetworkBehaviour
         enabled = false;
         GetComponent<BombController>().enabled = false;
 
-        spriteRendererUp.enabled = false;
-        spriteRendererDown.enabled = false;
-        spriteRendererLeft.enabled = false;
-        spriteRendererRight.enabled = false;
-        spriteRendererDeath.enabled = true;
-
         // Play the death sound
         if (deathAudioSource != null && deathSound != null)
         {
@@ -149,17 +98,8 @@ public class MovementController : NetworkBehaviour
     private void OnDeathSequenceEnded()
     {
         gameObject.SetActive(false);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         //GameManager.Instance.CheckWinState();
-    }
-
-    private void SetAnimationState(int newState)
-    {
-        if(!IsOwner)
-        {
-            return;
-        }
-        animationState.Value = newState;
     }
 
 }

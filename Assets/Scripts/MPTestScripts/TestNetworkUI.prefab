@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 7934552770940718112}
   - component: {fileID: 7934552770940718119}
   - component: {fileID: 7934552770940718115}
-  - component: {fileID: -4780563970468429450}
+  - component: {fileID: 5817005539580102903}
   m_Layer: 5
   m_Name: TestNetworkUI
   m_TagString: Untagged
@@ -261,7 +261,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-4780563970468429450
+--- !u!114 &5817005539580102903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

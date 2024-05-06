@@ -1,3 +1,7 @@
+/* Originally from David, modified by Jonah
+ * Controls bomb intantiation
+ */
+
 using System.Collections;
 using UnityEngine;
 using Unity.Netcode;
@@ -10,7 +14,7 @@ public class BombController : NetworkBehaviour
     public GameObject bombPrefeb;
     public KeyCode inputKey = KeyCode.Space;
     public float bombFuseTime = 3f;
-    public int bombAmmount = 1;
+    public int bombAmmount = 3;
     private int bombsRemaining;
 
     [Header ("Explosion")]
@@ -23,6 +27,13 @@ public class BombController : NetworkBehaviour
     public Tilemap destructableTiles;
     public Destructable destructiblePrefab;
 
+    // public override void OnNetworkSpawn() {
+    //     base.OnNetworkSpawn();
+    //     if(!IsOwner) {
+    //         this.enabled = false;
+    //         return;
+    //     }
+    // }
 
     private void OnEnable() 
     {
@@ -31,40 +42,51 @@ public class BombController : NetworkBehaviour
 
     private void Update() 
     {
-        if (bombsRemaining > 0 && Input.GetKeyDown(inputKey)) 
+        if (bombsRemaining > 0 && Input.GetKeyDown(inputKey) && IsOwner) 
         {
+            /* Old place bomb
+            StartCoroutine(PlaceBomb()); */
 
-            StartCoroutine(PlaceBomb());
+            // ServerRpc placebomb
+            bombsRemaining--;
+            Vector2 position = transform.position;
+            position.x = Mathf.Round(position.x);
+            position.y = Mathf.Round(position.y);
+            PlaceBombServerRpc(position);
+            
+            bombsRemaining++;
         }
     }
 
-    private IEnumerator PlaceBomb() 
-    {
-        Vector2 position = transform.position;
-        position.x = Mathf.Round(position.x);
-        position.y = Mathf.Round(position.y);
-
+    // Modified from PlaceBomb() to be a ServerRpc
+    [ServerRpc(RequireOwnership = false)]
+    private void PlaceBombServerRpc(Vector2 position) {
         GameObject bomb = Instantiate(bombPrefeb, position, Quaternion.identity);
-        bombsRemaining--;
+        bomb.GetComponent<NetworkObject>().Spawn();
+        StartCoroutine(FuseTimer(position));
+        Destroy(bomb, bombFuseTime);
 
-        yield return new WaitForSeconds(bombFuseTime);
+        
+    }
 
-        //...BOOM!
-        position = bomb.transform.position;
-        position.x = Mathf.Round(position.x);
-        position.y = Mathf.Round(position.y);
-
+    [ServerRpc(RequireOwnership = false)]
+    private void DetonateServerRpc(Vector2 position) {
         Explosion explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
+        explosion.GetComponent<NetworkObject>().Spawn();
         explosion.SetActiveRenderer(explosion.start);
         explosion.DestroyAfter(explosionDuration);
+
+        // TODO: send client data to explosion for score tracking
 
         Explode(position, Vector2.up, explosionRadius);
         Explode(position, Vector2.down, explosionRadius);
         Explode(position, Vector2.left, explosionRadius);
         Explode(position, Vector2.right, explosionRadius);
+    }
 
-        Destroy(bomb);
-        bombsRemaining++;
+    private IEnumerator FuseTimer(Vector2 position) {
+        yield return new WaitForSeconds(bombFuseTime);
+        DetonateServerRpc(position);
     }
 
     private void Explode(Vector2 position, Vector2 direction, int length) 

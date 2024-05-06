@@ -1,6 +1,5 @@
 // NetworkUI.cs
 // Basic UI for playing the game, choose between host/client
-// Was using a connected player counter but decided I didn't need it
 
 using System.Collections;
 using System.Collections.Generic;
@@ -20,9 +19,11 @@ public class TestNetworkUI : NetworkBehaviour
     private void Awake() {
         hostBtn.onClick.AddListener(() => {
             NetworkManager.Singleton.StartHost();
+            this.enabled = false;
         });
         clientBtn.onClick.AddListener(() => {
             NetworkManager.Singleton.StartClient();
+            this.enabled = false;
         });
     }
 
