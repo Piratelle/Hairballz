@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6739969735400536443}
   - component: {fileID: 242850522363008945}
   - component: {fileID: 5557268312367447135}
+  - component: {fileID: -4534667006482824329}
   m_Layer: 7
   m_Name: Bomb
   m_TagString: Untagged
@@ -136,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2374417216
+  GlobalObjectIdHash: 1543720462
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -145,3 +146,23 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-4534667006482824329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097578693872573468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc434be514509d34490cf1fe8d71ba71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: -887353720654785695, guid: 637ba00d8c5d9c4408316ba1e344e4bc, type: 3}
+  explosionLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  explosionDuration: 1
+  explosionRadius: 3
+  destructableTiles: {fileID: 0}
+  destructiblePrefab: {fileID: 725890053683425126, guid: a3cb91c0c1f6fe7498073274e54f6e99, type: 3}

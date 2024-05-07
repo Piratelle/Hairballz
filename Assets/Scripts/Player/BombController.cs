@@ -7,14 +7,13 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Tilemaps;
 
-
 public class BombController : NetworkBehaviour
 {
     [Header("Bomb")]
     public GameObject bombPrefeb;
     public KeyCode inputKey = KeyCode.Space;
     public float bombFuseTime = 3f;
-    public int bombAmmount = 3;
+    public int bombAmount = 3;
     private int bombsRemaining;
 
     [Header ("Explosion")]
@@ -27,37 +26,42 @@ public class BombController : NetworkBehaviour
     public Tilemap destructableTiles;
     public Destructable destructiblePrefab;
 
-    // public override void OnNetworkSpawn() {
-    //     base.OnNetworkSpawn();
-    //     if(!IsOwner) {
-    //         this.enabled = false;
-    //         return;
-    //     }
-    // }
+    public override void OnNetworkSpawn() {
+        base.OnNetworkSpawn();
+        if(!IsOwner) {
+            this.enabled = false;
+            return;
+        }
+    }
 
     private void OnEnable() 
     {
-        bombsRemaining = bombAmmount;
+        bombsRemaining = bombAmount;
     }
 
     private void Update() 
     {
         if (bombsRemaining > 0 && Input.GetKeyDown(inputKey) && IsOwner) 
         {
-            /* Old place bomb
-            StartCoroutine(PlaceBomb()); */
-
-            // ServerRpc placebomb
             bombsRemaining--;
             Vector2 position = transform.position;
             position.x = Mathf.Round(position.x);
             position.y = Mathf.Round(position.y);
             PlaceBombServerRpc(position);
-            
             bombsRemaining++;
         }
     }
 
+    // New bomb spawn idea; create a script for bomb, have RPC that just spawns a bomb
+    [ServerRpc(RequireOwnership = false)]
+    private void PlaceBombServerRpc(Vector2 position) {
+        GameObject bomb = Instantiate(bombPrefeb, position, Quaternion.identity);
+        bomb.GetComponent<Bomb>().explosionRadius = explosionRadius;
+        bomb.GetComponent<NetworkObject>().Spawn();
+        Destroy(bomb, bombFuseTime + explosionDuration);
+    }
+
+    /*
     // Modified from PlaceBomb() to be a ServerRpc
     [ServerRpc(RequireOwnership = false)]
     private void PlaceBombServerRpc(Vector2 position) {
@@ -65,8 +69,6 @@ public class BombController : NetworkBehaviour
         bomb.GetComponent<NetworkObject>().Spawn();
         StartCoroutine(FuseTimer(position));
         Destroy(bomb, bombFuseTime);
-
-        
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -131,10 +133,11 @@ public class BombController : NetworkBehaviour
             other.isTrigger = false;
         }
     }
+    */
 
     public void AddBomb()
     {
-        bombAmmount++;
+        bombAmount++;
         bombsRemaining++;
     }
 
