@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Netcode;
 using System.Collections;
 
 public class ItemPickup : MonoBehaviour
@@ -26,7 +27,7 @@ public class ItemPickup : MonoBehaviour
                 break;
 
             case ItemType.SpeedIncrease:
-                player.GetComponent<MovementController>().speed++;
+                player.GetComponent<PlayerController>().speed++;
                 break;
 
             case ItemType.Flare:

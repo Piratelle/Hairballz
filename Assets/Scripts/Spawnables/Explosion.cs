@@ -6,7 +6,6 @@ public class Explosion : MonoBehaviour
     public AnimatedSpriteRenderer middle;
     public AnimatedSpriteRenderer end;
 
-
     public void SetActiveRenderer(AnimatedSpriteRenderer renderer) 
     {
         start.enabled = renderer == start;
