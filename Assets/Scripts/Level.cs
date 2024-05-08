@@ -2,8 +2,6 @@
 // Handles dynamic map generation
 
 using System.Collections.Generic;
-using System.Xml.Schema;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -154,7 +152,7 @@ public class Level : MonoBehaviour
 
         // build player bases
         // 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
-        Debug.Log("Building bases...");
+        //Debug.Log("Building bases...");
         for (int p = 0; p < bases.Count; p++)
         {
             // learn player-specific traits
@@ -171,7 +169,7 @@ public class Level : MonoBehaviour
         }
 
         // build grid
-        Debug.Log("Populating grid...");
+        //Debug.Log("Populating grid...");
         int xGridMax = (int) gridRect.xMax;
         int yGridMax = (int) gridRect.yMax;
         List<(int, int)> eligibles = new List<(int, int)>();
@@ -204,7 +202,7 @@ public class Level : MonoBehaviour
         }
 
         // now handle the margins, with base-to-base and base-to-grid pathing
-        Debug.Log("Checking for eligible path squares...");
+        //Debug.Log("Checking for eligible path squares...");
         Rect pathRect = new Rect(mainRect.xMin + 1, mainRect.yMin + 1, mainRect.width - 2, mainRect.height - 2);
         eligibles.Clear();
         int xPathMin = (int) pathRect.xMin;
@@ -231,7 +229,7 @@ public class Level : MonoBehaviour
         }
 
         // modified Wilson's algorithm for pathing from each base to the grid
-        Debug.Log("Starting Wilson's run...");
+        //Debug.Log("Starting Wilson's run...");
         Vector2Int[] dirs = {
             new Vector2Int(1,0) // right
             , new Vector2Int(0, -1) // down
@@ -240,7 +238,7 @@ public class Level : MonoBehaviour
         };
         for (int p = 0; p < bases.Count; p++)
         {
-            Debug.Log("Pathing from Base " + p);
+            //Debug.Log("Pathing from Base " + p);
             BaseInfo b = bases[p];
 
             // build path from base to grid
