@@ -27,7 +27,7 @@ public class ItemPickup : MonoBehaviour
                 break;
 
             case ItemType.SpeedIncrease:
-                player.GetComponent<PlayerController>().speed++;
+                player.GetComponent<PlayerController>().IncrementSpeed();
                 break;
 
             case ItemType.Flare:
