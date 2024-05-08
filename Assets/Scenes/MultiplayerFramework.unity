@@ -186,11 +186,11 @@ MonoBehaviour:
   bgTilemap: {fileID: 1327348330}
   inTilemap: {fileID: 893626568}
   deTilemap: {fileID: 479169134}
-  mapWidth: 15
-  mapHeight: 13
+  mapWidth: 25
+  mapHeight: 23
   baseSide: 2
-  gridWidth: 7
-  gridHeight: 5
+  gridWidth: 15
+  gridHeight: 13
   solidWall: {fileID: 11400000, guid: ba927c704d3753441b0ce5e8873604f8, type: 2}
   destructWall: {fileID: 11400000, guid: f0705346e681b694dac310f6aff12c2c, type: 2}
   path: {fileID: 11400000, guid: f8590e6e1511ceb4795ea9cdd0bf05d6, type: 2}
@@ -208,7 +208,8 @@ GameObject:
   - component: {fileID: 479169132}
   - component: {fileID: 479169134}
   - component: {fileID: 479169133}
-  m_Layer: 0
+  - component: {fileID: 479169135}
+  m_Layer: 6
   m_Name: Destructables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,6 +318,22 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &479169135
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479169131}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,7 +701,8 @@ GameObject:
   - component: {fileID: 893626566}
   - component: {fileID: 893626568}
   - component: {fileID: 893626567}
-  m_Layer: 0
+  - component: {fileID: 893626569}
+  m_Layer: 6
   m_Name: Indestructables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -793,6 +811,22 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &893626569
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893626565}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
 --- !u!1 &929738686
 GameObject:
   m_ObjectHideFlags: 0

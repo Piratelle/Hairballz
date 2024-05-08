@@ -11,8 +11,11 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
-    private int playerNum;
+    //private int playerNum;
+    private NetworkVariable<int> playerNum = new NetworkVariable<int>(0);
     // Network variable for playercount
+    private Color[] playerColors = { Color.white, Color.red, Color.blue, Color.yellow };
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject camHolder;
     private Vector2 direction = Vector2.down;
@@ -30,14 +33,14 @@ public class PlayerController : NetworkBehaviour
     public AudioSource deathAudioSource;
     public AudioClip deathSound; 
 
-    public void OnClientConnect() {
-        // Get playerCount
-        // playerCount++;
-    }
-
     public override void OnNetworkSpawn() 
     {
         base.OnNetworkSpawn();
+        if (IsServer)
+        {
+            playerNum.Value = ClientConnectionHandler.GetPlayerNum(OwnerClientId) + 1;
+            Debug.Log("I'm Player #" + playerNum.Value);
+        }
         if (!IsOwner) {
             this.enabled = false;
             this.camHolder.SetActive(false);
@@ -61,12 +64,13 @@ public class PlayerController : NetworkBehaviour
         Camera.main.transform.SetParent(rb.transform);
 
         // Set player color
+        GetComponent<SpriteRenderer>().color = playerColors[playerNum.Value - 1];
         if (!IsHost) {
             // playerNum = playerCount;
             // GetComponent<SpriteRenderer>().color = color.red;
         } else {
             // Is host
-            playerNum = 1;
+            //playerNum = 1;
         }
     }
 
@@ -88,6 +92,7 @@ public class PlayerController : NetworkBehaviour
 
         rb.MovePosition(pos + translation);
     }
+
     #region Death Handling
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -129,15 +134,15 @@ public class PlayerController : NetworkBehaviour
     #endregion
 
     public float GetSpeed() {
-        return this.speed;
+        return speed;
     }
 
     public void IncrementSpeed() {
-        this.speed++;
+        speed++;
     }
 
     public int GetPlayerNum() {
-        return this.playerNum;
+        return playerNum.Value;
     }
 
 }
