@@ -14,7 +14,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject camHolder;
     private Vector2 direction = Vector2.down;
-    public float speed = 5f;
+    [SerializeField] private float speed = 5f;
 
     public KeyCode inputUp = KeyCode.W;
     public KeyCode inputLeft = KeyCode.A;
@@ -111,6 +111,14 @@ public class PlayerController : NetworkBehaviour
         //GameManager.Instance.CheckWinState();
     }
     #endregion
+
+    public float GetSpeed() {
+        return this.speed;
+    }
+
+    public void IncrementSpeed() {
+        this.speed++;
+    }
 
 }
 

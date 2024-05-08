@@ -13,14 +13,16 @@ public class BombController : NetworkBehaviour
     public GameObject bombPrefeb;
     public KeyCode inputKey = KeyCode.Space;
     public float bombFuseTime = 3f;
-    public int bombAmount = 3;
+    public int bombStartAmount = 3;
     private int bombsRemaining;
 
     [Header ("Explosion")]
     public Explosion explosionPrefab;
     public LayerMask explosionLayerMask;
     public float explosionDuration = 1f;
-    public int explosionRadius = 1;
+    [SerializeField] private int explosionRadius = 1;
+    // private NetworkVariable<int> explRadius = new NetworkVariable<int>();
+    // private const int r_InitialValue = 1;
 
     [Header("Destructable")]
     public Tilemap destructableTiles;
@@ -32,31 +34,33 @@ public class BombController : NetworkBehaviour
             this.enabled = false;
             return;
         }
+        this.explosionRadius = 1;
     }
 
     private void OnEnable() 
     {
-        bombsRemaining = bombAmount;
+        bombsRemaining = bombStartAmount;
     }
 
     private void Update() 
     {
+        if (bombsRemaining == 1) this.explosionRadius = 3;
         if (bombsRemaining > 0 && Input.GetKeyDown(inputKey) && IsOwner) 
         {
             bombsRemaining--;
             Vector2 position = transform.position;
             position.x = Mathf.Round(position.x);
             position.y = Mathf.Round(position.y);
-            PlaceBombServerRpc(position);
-            bombsRemaining++;
+            PlaceBombServerRpc(position, explosionRadius);
+            //bombsRemaining++;
         }
     }
 
     // New bomb spawn idea; create a script for bomb, have RPC that just spawns a bomb
     [ServerRpc(RequireOwnership = false)]
-    private void PlaceBombServerRpc(Vector2 position) {
+    private void PlaceBombServerRpc(Vector2 position, int r) {
         GameObject bomb = Instantiate(bombPrefeb, position, Quaternion.identity);
-        bomb.GetComponent<Bomb>().explosionRadius = explosionRadius;
+        bomb.GetComponent<Bomb>().SetExplosionRadius(r);
         bomb.GetComponent<NetworkObject>().Spawn();
         Destroy(bomb, bombFuseTime + explosionDuration);
     }
@@ -137,8 +141,15 @@ public class BombController : NetworkBehaviour
 
     public void AddBomb()
     {
-        bombAmount++;
         bombsRemaining++;
+    }
+
+    public void IncrementExplosionRadius() {
+        this.explosionRadius++;
+    }
+
+    public int GetExplosionRadius() {
+        return this.explosionRadius;
     }
 
 }
