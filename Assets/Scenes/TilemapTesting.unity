@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 1784940657}
   - component: {fileID: 1784940660}
   - component: {fileID: 1784940659}
-  - component: {fileID: 1784940658}
+  - component: {fileID: 1784940661}
   m_Layer: 6
   m_Name: Indestructible Tilemap
   m_TagString: Untagged
@@ -435,32 +435,6 @@ Transform:
   m_Father: {fileID: 1653980180}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1784940658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784940656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcedd3a0ce018a34e860810180f5dbc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgTilemap: {fileID: 0}
-  inTilemap: {fileID: 0}
-  deTilemap: {fileID: 0}
-  mapWidth: 15
-  mapHeight: 13
-  baseSide: 2
-  gridWidth: 7
-  gridHeight: 5
-  solidWall: {fileID: 11400000, guid: ba927c704d3753441b0ce5e8873604f8, type: 2}
-  destructWall: {fileID: 11400000, guid: f0705346e681b694dac310f6aff12c2c, type: 2}
-  path: {fileID: 11400000, guid: f8590e6e1511ceb4795ea9cdd0bf05d6, type: 2}
-  baseTiles:
-  - {fileID: 11400000, guid: b07229c0dbb64e841b9f7b5321a92454, type: 2}
-  density: 0.6
 --- !u!483693784 &1784940659
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -548,6 +522,22 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &1784940661
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784940656}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
 --- !u!1 &1947468926
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +549,7 @@ GameObject:
   - component: {fileID: 1947468927}
   - component: {fileID: 1947468930}
   - component: {fileID: 1947468929}
-  - component: {fileID: 1947468928}
+  - component: {fileID: 1947468931}
   m_Layer: 6
   m_Name: Destructible Tilemap
   m_TagString: Untagged
@@ -582,32 +572,6 @@ Transform:
   m_Father: {fileID: 1653980180}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1947468928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1947468926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcedd3a0ce018a34e860810180f5dbc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgTilemap: {fileID: 0}
-  inTilemap: {fileID: 0}
-  deTilemap: {fileID: 0}
-  mapWidth: 15
-  mapHeight: 13
-  baseSide: 2
-  gridWidth: 7
-  gridHeight: 5
-  solidWall: {fileID: 11400000, guid: ba927c704d3753441b0ce5e8873604f8, type: 2}
-  destructWall: {fileID: 11400000, guid: f0705346e681b694dac310f6aff12c2c, type: 2}
-  path: {fileID: 11400000, guid: f8590e6e1511ceb4795ea9cdd0bf05d6, type: 2}
-  baseTiles:
-  - {fileID: 11400000, guid: b07229c0dbb64e841b9f7b5321a92454, type: 2}
-  density: 0.6
 --- !u!483693784 &1947468929
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -695,3 +659,19 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &1947468931
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947468926}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0

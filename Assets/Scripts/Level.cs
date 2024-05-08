@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -31,14 +32,16 @@ public class Level : MonoBehaviour
     [SerializeField] private float density = 0.6f;
 
     private int xMin;
-    private int xMax;
+    //private int xMax;
     private int yMin;
-    private int yMax;
+    //private int yMax;
 
     private int xGridMin;
-    private int xGridMax;
+    //private int xGridMax;
     private int yGridMin;
-    private int yGridMax;
+    //private int yGridMax;
+
+    private bool isClockwise;
     #endregion
 
     #region Initialization
@@ -61,16 +64,16 @@ public class Level : MonoBehaviour
         int wOff = mapWidth / 2;
         int hOff = mapHeight / 2;
         xMin = 0 - wOff;
-        xMax = mapWidth - wOff;
+        int xMax = mapWidth - wOff;
         yMin = 0 - hOff;
-        yMax = mapHeight - hOff;
+        int yMax = mapHeight - hOff;
 
         // store grid bounds
         int marg = (mapWidth - 2 - gridWidth) / 2;
-        xGridMax = xMax - marg - 1;
+        int xGridMax = xMax - marg - 1;
         xGridMin = xGridMax - gridWidth;
         marg = (mapWidth - 2 - gridWidth) / 2;
-        yGridMax = yMax - marg - 1;
+        int yGridMax = yMax - marg - 1;
         yGridMin = yGridMax - gridHeight;
 
         // initialize
@@ -85,18 +88,32 @@ public class Level : MonoBehaviour
         inTilemap.ClearAllTiles();
         deTilemap.ClearAllTiles();
 
-        List<Tuple<int, int>> eligibles = new List<Tuple<int, int>>();
+        // build Rect objects for easier boundary checks
+        Rect mazeRect = new Rect(xMin, yMin, mapWidth, mapHeight);
+        Rect mainRect = new Rect(xMin + 1, yMin + 1, mapWidth - 2, mapHeight - 2);
+        Rect gridRect = new Rect(xGridMin, yGridMin, gridWidth, gridHeight);
 
-        // build background
-        for (int x = xMin; x < xMax; x++)
+        List<Rect> baseRects = new List<Rect> ();
+        for (int p = 0; p < 4; p++)
         {
-            for (int y = yMin; y < yMax; y++)
+            float left = (p % 2 == 0) ? mainRect.xMin : mainRect.xMax - baseSide;
+            float bottom = p < 2 ? mainRect.yMax - baseSide : mainRect.yMin;
+            baseRects.Add(new Rect(left, bottom, baseSide, baseSide));
+            //Debug.Log("Player " + p + " base from (" + left + "," + bottom +") to (" + (left + baseSide) + "," + (bottom + baseSide) + ")");
+        }
+        
+        // build background
+        for (int x = xMin; x < mazeRect.xMax; x++)
+        {
+            for (int y = yMin; y < mazeRect.yMax; y++)
             {
                 bgTilemap.SetTile(new Vector3Int(x, y, 0), path);
             }
         }
 
-        // build the outer border
+        // build outer border
+        int xMax = (int)mazeRect.xMax;
+        int yMax = (int)mazeRect.yMax;
         for (int x = xMin; x < xMax; x++)
         {
             inTilemap.SetTile(new Vector3Int(x, yMin, 0), solidWall);
@@ -108,43 +125,17 @@ public class Level : MonoBehaviour
             inTilemap.SetTile(new Vector3Int(xMax - 1, y, 0), solidWall);
         }
 
-        // fill in margins
-        for (int x = xMin + 1; x < xMax - 1; x++)
-        {
-            for (int y = yMin + 1; y < yGridMin; y++)
-            {
-                //tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
-            }
-            for (int y = yGridMax; y < yMax - 1; y++)
-            {
-                //tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
-            }
-        }
-        for (int y = yGridMin; y < yGridMax; y++)
-        {
-            for (int x = xMin + 1; x < xGridMin; x++)
-            {
-                //tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
-            }
-            for (int x = xGridMax; x < xMax - 1; x++)
-            {
-                //tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
-            }
-        }
-
         // build player bases
         // 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
-        for (int p = 0; p < 4; p++)
+        for (int p = 0; p < baseRects.Count; p++)
         {
-            ;
             // learn player-specific traits
-            int left = (p % 2 == 0) ? xMin + 1 : xMax - (baseSide + 1);
-            int bottom = p < 2 ? yMax - (baseSide + 1) : yMin + 1;
+            Rect baseRect = baseRects[p];
             Tile bgTile = baseTiles[p % baseTiles.Length];
 
-            for (int x = left; x < left + baseSide; x++)
+            for (int x = (int) baseRect.xMin; x < baseRect.xMax; x++)
             {
-                for (int y = bottom; y < bottom + baseSide; y++)
+                for (int y = (int) baseRect.yMin; y < baseRect.yMax; y++)
                 {
                     bgTilemap.SetTile(new Vector3Int(x, y, 0), bgTile);
                 }
@@ -152,6 +143,9 @@ public class Level : MonoBehaviour
         }
 
         // build grid
+        int xGridMax = (int) gridRect.xMax;
+        int yGridMax = (int) gridRect.yMax;
+        List<(int, int)> eligibles = new List<(int, int)>();
         for (int x = xGridMin; x < xGridMax; x++)
         {
             for (int y = yGridMin; y < yGridMax; y++)
@@ -162,7 +156,7 @@ public class Level : MonoBehaviour
                     inTilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
                 } else
                 {
-                    eligibles.Add(new Tuple<int, int>(x, y));
+                    eligibles.Add((x, y));
                 }
             }
         }
@@ -174,14 +168,48 @@ public class Level : MonoBehaviour
             while ((maxSquares - eligibles.Count) / maxSquares < density)
             {
                 int r = RND.Next(eligibles.Count);
-                Tuple<int, int> square = eligibles[r];
+                (int, int) square = eligibles[r];
                 eligibles.RemoveAt(r);
                 deTilemap.SetTile(new Vector3Int(square.Item1, square.Item2, 0), destructWall);
             }
         }
 
-        // now handle the base-to-base and base-to-grid pathing
+        // now handle the margins, with base-to-base and base-to-grid pathing
+        Rect pathRect = new Rect(mainRect.xMin + 1, mainRect.yMin + 1, mainRect.width - 2, mainRect.height - 2);
+        eligibles.Clear();
+        int xPathMin = (int) pathRect.xMin;
+        int yPathMin = (int) pathRect.yMin;
+        for (int x = xPathMin; x < pathRect.xMax; x++)
+        {
+            for (int y = yPathMin; y < pathRect.yMax; y++)
+            {
+                // check if this square is already in use
+                Vector2 square = new Vector2(x, y);
+                bool inUse = false;
+                foreach (Rect baseRect in baseRects)
+                {
+                    if (baseRect.Contains(square))
+                    {
+                        inUse = true;
+                        continue;
+                    }
+                }
+                if (inUse || gridRect.Contains(square)) continue;
 
+                eligibles.Add((x, y));
+            }
+        }
+
+        foreach ((int x, int y) in eligibles)
+        {
+            if (true)
+            {
+                inTilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
+            }
+        }
+
+        // switch up the configuration for next time
+        isClockwise = !isClockwise;
     }
     #endregion
 }
