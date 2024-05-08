@@ -11,6 +11,8 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
+    public int playerNum;
+    // Network variable for playercount
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject camHolder;
     private Vector2 direction = Vector2.down;
@@ -25,8 +27,13 @@ public class PlayerController : NetworkBehaviour
     public bool idle;
     private bool isDead;
 
-    public AudioSource deathAudioSource; // Assign the AudioSource component in the Inspector
-    public AudioClip deathSound; // Assign the death sound clip in the Inspector
+    public AudioSource deathAudioSource;
+    public AudioClip deathSound; 
+
+    public void OnClientConnect() {
+        // Get playerCount
+        // playerCount++;
+    }
 
     public override void OnNetworkSpawn() 
     {
@@ -52,6 +59,15 @@ public class PlayerController : NetworkBehaviour
         rb = GetComponent<Rigidbody2D>();
         // attach main camera to player if owner (can also just set positions in update if works better)
         Camera.main.transform.SetParent(rb.transform);
+
+        // Set player color
+        if (!IsHost) {
+            // playerNum = playerCount;
+            // GetComponent<SpriteRenderer>().color = color.red;
+        } else {
+            // Is host
+            playerNum = 1;
+        }
     }
 
     private void Update()

@@ -17,6 +17,8 @@ public class Bomb : MonoBehaviour
     [SerializeField] private int explosionRadius;
     int bombFuseTime = 3;
 
+    // TODO: add sounds
+
     [Header("Destructable")]
     public Tilemap destructableTiles;
     public Destructable destructiblePrefab;
@@ -31,23 +33,18 @@ public class Bomb : MonoBehaviour
     private void Detonate() {
         GetComponent<SpriteRenderer>().enabled = false;
         Explosion explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
-        // explosion.GetComponent<NetworkObject>().Spawn();
         explosion.SetActiveRenderer(explosion.start);
         explosion.DestroyAfter(explosionDuration);
 
         // TODO: send client data to explosion for score tracking
-        // TODO: make bomb sizes correspond to player
+
+        // TODO: play explosion sound
 
         Explode(position, Vector2.up, explosionRadius);
         Explode(position, Vector2.down, explosionRadius);
         Explode(position, Vector2.left, explosionRadius);
         Explode(position, Vector2.right, explosionRadius);
     }
-
-    // private IEnumerator FuseTimer(Vector2 position) {
-    //     yield return new WaitForSeconds(bombFuseTime);
-    //     Detonate(position, explosionRadius);
-    // }
 
     private void Explode(Vector2 position, Vector2 direction, int length) 
     {

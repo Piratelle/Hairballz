@@ -4,6 +4,9 @@ using System.Collections;
 
 public class ItemPickup : MonoBehaviour
 {
+    public AudioSource powerupAudioSource;
+    public AudioClip powerupSound; 
+
     public enum ItemType 
     {
         ExtraBomb,
@@ -14,8 +17,18 @@ public class ItemPickup : MonoBehaviour
 
     public ItemType type;
 
+    void Start() {
+        powerupAudioSource = GetComponent<AudioSource>();
+        powerupSound = GetComponent<AudioClip>();
+        powerupAudioSource.clip = powerupSound;
+        this.powerupAudioSource.Play();
+    }
+
     private void OnItemPickup(GameObject player)
     {
+        // Play sound
+
+
         switch (type) 
         {
             case ItemType.ExtraBomb:
