@@ -14,7 +14,7 @@ public class Bomb : MonoBehaviour
     public Explosion explosionPrefab;
     public LayerMask explosionLayerMask;
     public float explosionDuration = 1f;
-    public int explosionRadius;
+    [SerializeField] private int explosionRadius;
     int bombFuseTime = 3;
 
     [Header("Destructable")]
@@ -83,4 +83,9 @@ public class Bomb : MonoBehaviour
             destructableTiles.SetTile(cell, null);
         }
     }
+
+    public void SetExplosionRadius(int r) {
+        this.explosionRadius = r;
+    }
+
 }
