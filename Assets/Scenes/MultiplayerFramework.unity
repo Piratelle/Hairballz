@@ -1138,6 +1138,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5817005539580102903, guid: bd3bc2c16375d27409fbeb283648971f, type: 3}
+      propertyPath: level
+      value: 
+      objectReference: {fileID: 79505804}
     - target: {fileID: 7934552770064474533, guid: bd3bc2c16375d27409fbeb283648971f, type: 3}
       propertyPath: m_fontAsset
       value: 

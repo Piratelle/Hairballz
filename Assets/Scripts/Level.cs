@@ -77,11 +77,11 @@ public class Level : MonoBehaviour
         yGridMin = yGridMax - gridHeight;
 
         // initialize
-        PopulateLevel(0); // remove after Rpcs are set up!
+        //PopulateLevel(0); // remove after Rpcs are set up!
     }
 
     // rebuild the grid
-    void PopulateLevel(int seed)
+    public void PopulateLevel(int seed)
     {
         // clear any existing tiles
         bgTilemap.ClearAllTiles();
