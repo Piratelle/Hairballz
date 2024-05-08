@@ -2,7 +2,7 @@
  * Player controller script
  * - Handles movement
  * - Death sequence
- */
+ */ 
 
 
 using UnityEngine;
@@ -11,7 +11,7 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
-    public int playerNum;
+    private int playerNum;
     // Network variable for playercount
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject camHolder;
@@ -134,6 +134,10 @@ public class PlayerController : NetworkBehaviour
 
     public void IncrementSpeed() {
         this.speed++;
+    }
+
+    public int GetPlayerNum() {
+        return this.playerNum;
     }
 
 }
