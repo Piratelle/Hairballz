@@ -6,7 +6,11 @@ using UnityEngine.Tilemaps;
 public class Level : MonoBehaviour
 {
     #region Variables
-    static System.Random RND = new System.Random();
+    // link tilemaps
+    [Header("Tilemaps")]
+    [SerializeField] private Tilemap bgTilemap;
+    [SerializeField] private Tilemap inTilemap;
+    [SerializeField] private Tilemap deTilemap;
 
     // set map variables
     [Header("Map")]
@@ -26,8 +30,6 @@ public class Level : MonoBehaviour
     [Header("Behavior")]
     [SerializeField] private float density = 0.6f;
 
-    private Tilemap tilemap;
-
     private int xMin;
     private int xMax;
     private int yMin;
@@ -43,8 +45,6 @@ public class Level : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tilemap = GetComponent<Tilemap>(); // careful if we switch to double tilemap option!
-
         // enforce parameter restrictions
         density = Mathf.Clamp(density, 0, 1);
 
@@ -74,27 +74,38 @@ public class Level : MonoBehaviour
         yGridMin = yGridMax - gridHeight;
 
         // initialize
-        PopulateLevel();
+        PopulateLevel(0); // remove after Rpcs are set up!
     }
 
     // rebuild the grid
-    void PopulateLevel()
+    void PopulateLevel(int seed)
     {
         // clear any existing tiles
-        tilemap.ClearAllTiles();
+        bgTilemap.ClearAllTiles();
+        inTilemap.ClearAllTiles();
+        deTilemap.ClearAllTiles();
 
         List<Tuple<int, int>> eligibles = new List<Tuple<int, int>>();
+
+        // build background
+        for (int x = xMin; x < xMax; x++)
+        {
+            for (int y = yMin; y < yMax; y++)
+            {
+                bgTilemap.SetTile(new Vector3Int(x, y, 0), path);
+            }
+        }
 
         // build the outer border
         for (int x = xMin; x < xMax; x++)
         {
-            tilemap.SetTile(new Vector3Int(x, yMin, 0), solidWall);
-            tilemap.SetTile(new Vector3Int(x, yMax - 1, 0), solidWall);
+            inTilemap.SetTile(new Vector3Int(x, yMin, 0), solidWall);
+            inTilemap.SetTile(new Vector3Int(x, yMax - 1, 0), solidWall);
         }
         for (int y = yMin + 1; y < yMax - 1; y++)
         {
-            tilemap.SetTile(new Vector3Int(xMin, y, 0), solidWall);
-            tilemap.SetTile(new Vector3Int(xMax - 1, y, 0), solidWall);
+            inTilemap.SetTile(new Vector3Int(xMin, y, 0), solidWall);
+            inTilemap.SetTile(new Vector3Int(xMax - 1, y, 0), solidWall);
         }
 
         // fill in margins
@@ -102,22 +113,22 @@ public class Level : MonoBehaviour
         {
             for (int y = yMin + 1; y < yGridMin; y++)
             {
-                tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
+                //tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
             }
             for (int y = yGridMax; y < yMax - 1; y++)
             {
-                tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
+                //tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
             }
         }
         for (int y = yGridMin; y < yGridMax; y++)
         {
             for (int x = xMin + 1; x < xGridMin; x++)
             {
-                tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
+                //tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
             }
             for (int x = xGridMax; x < xMax - 1; x++)
             {
-                tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
+                //tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
             }
         }
 
@@ -135,7 +146,7 @@ public class Level : MonoBehaviour
             {
                 for (int y = bottom; y < bottom + baseSide; y++)
                 {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), bgTile);
+                    bgTilemap.SetTile(new Vector3Int(x, y, 0), bgTile);
                 }
             }
         }
@@ -148,16 +159,16 @@ public class Level : MonoBehaviour
                 // standard method: offset
                 if ((x - xGridMin) % 2 == 1 && (y - yGridMin) % 2 == 1 && x < xGridMax - 1 && y < yGridMax - 1)
                 {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
+                    inTilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
                 } else
                 {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), path);
                     eligibles.Add(new Tuple<int, int>(x, y));
                 }
             }
         }
 
         // now populate grid with randomized destructibles
+        System.Random RND = new System.Random(seed);
         float maxSquares = eligibles.Count;
         if (maxSquares > 0) {
             while ((maxSquares - eligibles.Count) / maxSquares < density)
@@ -165,7 +176,7 @@ public class Level : MonoBehaviour
                 int r = RND.Next(eligibles.Count);
                 Tuple<int, int> square = eligibles[r];
                 eligibles.RemoveAt(r);
-                tilemap.SetTile(new Vector3Int(square.Item1, square.Item2, 0), destructWall);
+                deTilemap.SetTile(new Vector3Int(square.Item1, square.Item2, 0), destructWall);
             }
         }
 
