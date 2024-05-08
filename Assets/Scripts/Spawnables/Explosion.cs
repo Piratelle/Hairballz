@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
+    private int playerNum;
     public AnimatedSpriteRenderer start;
     public AnimatedSpriteRenderer middle;
     public AnimatedSpriteRenderer end;
@@ -22,6 +23,14 @@ public class Explosion : MonoBehaviour
     public void DestroyAfter(float seconds) 
     {
         Destroy(gameObject, seconds);
+    }
+
+    public int GetPlayerNum() {
+        return this.playerNum;
+    }
+
+    public void SetPlayerNum(int n) {
+        this.playerNum = n;
     }
 
 }

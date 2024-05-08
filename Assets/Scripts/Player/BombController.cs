@@ -9,6 +9,7 @@ using UnityEngine.Tilemaps;
 
 public class BombController : NetworkBehaviour
 {
+    private int playerNum;
     [Header("Bomb")]
     public GameObject bombPrefeb;
     public KeyCode inputKey = KeyCode.Space;
@@ -33,6 +34,7 @@ public class BombController : NetworkBehaviour
             return;
         }
         this.explosionRadius = 1;
+        this.playerNum = GetComponent<PlayerController>().GetPlayerNum();
     }
 
     private void OnEnable() 
@@ -58,6 +60,7 @@ public class BombController : NetworkBehaviour
     private void PlaceBombServerRpc(Vector2 position, int r) {
         GameObject bomb = Instantiate(bombPrefeb, position, Quaternion.identity);
         bomb.GetComponent<Bomb>().SetExplosionRadius(r);
+        bomb.GetComponent<Bomb>().SetPlayerNum(playerNum);
         bomb.GetComponent<NetworkObject>().Spawn();
         Destroy(bomb, bombFuseTime + explosionDuration);
     }

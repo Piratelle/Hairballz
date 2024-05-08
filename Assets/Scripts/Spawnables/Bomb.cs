@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 
 public class Bomb : MonoBehaviour
 {
-    // var dropperID
+    private int playerNum;
     Vector2 position;
     public Explosion explosionPrefab;
     public LayerMask explosionLayerMask;
@@ -85,4 +85,11 @@ public class Bomb : MonoBehaviour
         this.explosionRadius = r;
     }
 
+    public int GetPlayerNum() {
+        return this.playerNum;
+    }
+
+    public void SetPlayerNum(int n) {
+        this.playerNum = n;
+    }
 }
