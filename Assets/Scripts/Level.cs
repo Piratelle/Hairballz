@@ -1,6 +1,9 @@
-using System;
+// Level.cs
+// Handles dynamic map generation
+
 using System.Collections.Generic;
-using UnityEditor.UIElements;
+using System.Xml.Schema;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -40,8 +43,33 @@ public class Level : MonoBehaviour
     //private int xGridMax;
     private int yGridMin;
     //private int yGridMax;
+    #endregion
 
-    private bool isClockwise;
+    #region Player Base
+    private struct BaseInfo
+    {
+        public readonly Rect rect;
+        public readonly Vector2Int spawnPos;
+        public readonly Vector2Int innerPos;
+
+        public BaseInfo(float xMin, float yMin, int side, int playerNum)
+        {
+            rect = new Rect(xMin, yMin, side, side);
+
+            float left = rect.xMin;
+            float right = rect.xMax - 1;
+            float top = rect.yMax - 1;
+            float bottom = rect.yMin;
+
+            spawnPos = new Vector2Int((int) ((playerNum % 2 == 0) ? left : right), (int) (playerNum < 2 ? top : bottom));
+            innerPos = new Vector2Int((int) ((playerNum % 2 == 0) ? right : left), (int) (playerNum < 2 ? bottom : top));
+        }
+
+        public int XMin() { return (int) rect.xMin; }
+        public int XMax() { return (int) rect.xMax; }
+        public int YMin() { return (int) rect.yMin; }
+        public int YMax() { return (int) rect.yMax; }
+    }
     #endregion
 
     #region Initialization
@@ -77,7 +105,7 @@ public class Level : MonoBehaviour
         yGridMin = yGridMax - gridHeight;
 
         // initialize
-        //PopulateLevel(0); // remove after Rpcs are set up!
+        PopulateLevel(0); // remove for networking! add in for testing!
     }
 
     // rebuild the grid
@@ -93,13 +121,12 @@ public class Level : MonoBehaviour
         Rect mainRect = new Rect(xMin + 1, yMin + 1, mapWidth - 2, mapHeight - 2);
         Rect gridRect = new Rect(xGridMin, yGridMin, gridWidth, gridHeight);
 
-        List<Rect> baseRects = new List<Rect> ();
+        List<BaseInfo> bases = new List<BaseInfo> ();
         for (int p = 0; p < 4; p++)
         {
             float left = (p % 2 == 0) ? mainRect.xMin : mainRect.xMax - baseSide;
             float bottom = p < 2 ? mainRect.yMax - baseSide : mainRect.yMin;
-            baseRects.Add(new Rect(left, bottom, baseSide, baseSide));
-            //Debug.Log("Player " + p + " base from (" + left + "," + bottom +") to (" + (left + baseSide) + "," + (bottom + baseSide) + ")");
+            bases.Add(new BaseInfo(left, bottom, baseSide, p));
         }
         
         // build background
@@ -127,15 +154,16 @@ public class Level : MonoBehaviour
 
         // build player bases
         // 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
-        for (int p = 0; p < baseRects.Count; p++)
+        Debug.Log("Building bases...");
+        for (int p = 0; p < bases.Count; p++)
         {
             // learn player-specific traits
-            Rect baseRect = baseRects[p];
+            BaseInfo b = bases[p];
             Tile bgTile = baseTiles[p % baseTiles.Length];
 
-            for (int x = (int) baseRect.xMin; x < baseRect.xMax; x++)
+            for (int x = b.XMin(); x < b.XMax(); x++)
             {
-                for (int y = (int) baseRect.yMin; y < baseRect.yMax; y++)
+                for (int y = b.YMin(); y < b.YMax(); y++)
                 {
                     bgTilemap.SetTile(new Vector3Int(x, y, 0), bgTile);
                 }
@@ -143,6 +171,7 @@ public class Level : MonoBehaviour
         }
 
         // build grid
+        Debug.Log("Populating grid...");
         int xGridMax = (int) gridRect.xMax;
         int yGridMax = (int) gridRect.yMax;
         List<(int, int)> eligibles = new List<(int, int)>();
@@ -175,6 +204,7 @@ public class Level : MonoBehaviour
         }
 
         // now handle the margins, with base-to-base and base-to-grid pathing
+        Debug.Log("Checking for eligible path squares...");
         Rect pathRect = new Rect(mainRect.xMin + 1, mainRect.yMin + 1, mainRect.width - 2, mainRect.height - 2);
         eligibles.Clear();
         int xPathMin = (int) pathRect.xMin;
@@ -186,9 +216,9 @@ public class Level : MonoBehaviour
                 // check if this square is already in use
                 Vector2 square = new Vector2(x, y);
                 bool inUse = false;
-                foreach (Rect baseRect in baseRects)
+                foreach (BaseInfo b in bases)
                 {
-                    if (baseRect.Contains(square))
+                    if (b.rect.Contains(square))
                     {
                         inUse = true;
                         continue;
@@ -200,16 +230,56 @@ public class Level : MonoBehaviour
             }
         }
 
-        foreach ((int x, int y) in eligibles)
+        // modified Wilson's algorithm for pathing from each base to the grid
+        Debug.Log("Starting Wilson's run...");
+        Vector2Int[] dirs = {
+            new Vector2Int(1,0) // right
+            , new Vector2Int(0, -1) // down
+            , new Vector2Int(0, 1) // up
+            , new Vector2Int(-1, 0) // left
+        };
+        for (int p = 0; p < bases.Count; p++)
         {
-            if (true)
+            Debug.Log("Pathing from Base " + p);
+            BaseInfo b = bases[p];
+
+            // build path from base to grid
+            Dictionary<(int, int), Vector2Int> path = new Dictionary<(int, int), Vector2Int>();
+            Vector2Int current = b.innerPos;
+            Vector2Int dir = dirs[p];
+            Vector2Int next = current + dir;
+            path[(current.x, current.y)] = dir;
+            while (!gridRect.Contains(next))
             {
-                inTilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
+                //Debug.Log("Current square: " + current + ", next dir: " + dir);
+                current = next;
+                int i = RND.Next(dirs.Length);
+                dir = dirs[i];
+                next = current + dir;
+                while (!eligibles.Contains((next.x, next.y)) && !gridRect.Contains(next))
+                {
+                    i = RND.Next(dirs.Length);
+                    dir = dirs[i];
+                    next = current + dir;
+                }
+                path[(current.x, current.y)] = dir;
+            }
+
+            // now remove the path squares from eiligible wall squares
+            current = b.innerPos;
+            current += path[(current.x, current.y)];
+            while (!gridRect.Contains(current))
+            {
+                eligibles.Remove((current.x, current.y));
+                current += path[(current.x, current.y)];
             }
         }
 
-        // switch up the configuration for next time
-        isClockwise = !isClockwise;
+        // fill the remaining grid squares with walls
+        foreach ((int x, int y) in eligibles)
+        {
+            inTilemap.SetTile(new Vector3Int(x, y, 0), solidWall);
+        }
     }
     #endregion
 }

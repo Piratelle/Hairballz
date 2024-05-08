@@ -390,11 +390,11 @@ MonoBehaviour:
   bgTilemap: {fileID: 747852806}
   inTilemap: {fileID: 1784940660}
   deTilemap: {fileID: 1947468930}
-  mapWidth: 15
-  mapHeight: 13
+  mapWidth: 30
+  mapHeight: 26
   baseSide: 2
-  gridWidth: 7
-  gridHeight: 5
+  gridWidth: 15
+  gridHeight: 13
   solidWall: {fileID: 11400000, guid: ba927c704d3753441b0ce5e8873604f8, type: 2}
   destructWall: {fileID: 11400000, guid: f0705346e681b694dac310f6aff12c2c, type: 2}
   path: {fileID: 11400000, guid: f8590e6e1511ceb4795ea9cdd0bf05d6, type: 2}
