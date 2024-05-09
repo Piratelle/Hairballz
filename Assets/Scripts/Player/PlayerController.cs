@@ -11,6 +11,7 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
+    #region Variables
     //private int playerNum;
     private NetworkVariable<int> playerNum = new NetworkVariable<int>(0);
     // Network variable for playercount
@@ -31,8 +32,10 @@ public class PlayerController : NetworkBehaviour
     private bool isDead;
 
     public AudioSource deathAudioSource;
-    public AudioClip deathSound; 
+    public AudioClip deathSound;
+    #endregion
 
+    #region Initialization
     public override void OnNetworkSpawn() 
     {
         base.OnNetworkSpawn();
@@ -73,7 +76,9 @@ public class PlayerController : NetworkBehaviour
             //playerNum = 1;
         }
     }
+    #endregion
 
+    #region Movement
     private void Update()
     {
         // Input handling
@@ -92,6 +97,7 @@ public class PlayerController : NetworkBehaviour
 
         rb.MovePosition(pos + translation);
     }
+    #endregion
 
     #region Death Handling
     private void OnTriggerEnter2D(Collider2D other)
@@ -133,6 +139,7 @@ public class PlayerController : NetworkBehaviour
     }
     #endregion
 
+    #region Accessors & Mutators
     public float GetSpeed() {
         return speed;
     }
@@ -144,6 +151,7 @@ public class PlayerController : NetworkBehaviour
     public int GetPlayerNum() {
         return playerNum.Value;
     }
+    #endregion
 
 }
 
