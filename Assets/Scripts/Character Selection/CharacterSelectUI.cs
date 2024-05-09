@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+// CharacterSelectUI.cs
+// handles CharacterSelectScene UI
+
 using UnityEngine;
 using TMPro;
 using Unity.Netcode;
@@ -29,7 +30,6 @@ public class CharacterSelectUI : MonoBehaviour
     private void Start()
     {
         Lobby lobby = GameLobby.Instance.GetLobby();
-
         lobbyNameText.text = "Lobby Name: " + lobby.Name;
         lobbyCodeText.text = "Lobby Code: " + lobby.LobbyCode;
     }

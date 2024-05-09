@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+// LobbyListSingleUI.cs
+// handles joinable Lobby UI
+
 using UnityEngine;
 using TMPro;
 using Unity.Services.Lobbies.Models;

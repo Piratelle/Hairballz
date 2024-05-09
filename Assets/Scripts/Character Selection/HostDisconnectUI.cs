@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+// HostDisconnectUI.cs
+// handles updates to CharacterSelectScene in the event of a Host disconnection
+
 using UnityEngine;
 using Unity.Netcode;
-//using UnityEditor.UI;
 using UnityEngine.UI;
 
 public class HostDisconnectUI : MonoBehaviour
@@ -20,7 +20,6 @@ public class HostDisconnectUI : MonoBehaviour
     void Start()
     {
         NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientDisconnectCallback;
-
         Hide();
     }
 

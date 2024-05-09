@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+// LoaderCallBack.cs
+// handles Loading Scene transition
+
 using UnityEngine;
 
 public class LoaderCallBack : MonoBehaviour
@@ -12,7 +13,6 @@ public class LoaderCallBack : MonoBehaviour
         if(isFirstUpdate)
         {
             isFirstUpdate = false;
-
             Loader.LoaderCallback();
         }
     }

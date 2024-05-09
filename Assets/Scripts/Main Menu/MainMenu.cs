@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+// MainMenu.cs - from David's version
+// handles Main Menu UI
+
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -12,14 +12,10 @@ public class MainMenu : MonoBehaviour
     private void Awake()
     {
         playButton.onClick.AddListener(()=>{
-            //GameMultiplayer.playMultiplayer = true;
             Loader.Load(Loader.Scene.LobbyScene);
         });
         quitButton.onClick.AddListener(()=>{
             Application.Quit();
         });
     }
-
-    //Time.timeScale = 1f;
-    
 }

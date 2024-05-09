@@ -1,5 +1,7 @@
+// GameLobby.cs
+// handles Unity Lobby logic
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
@@ -16,12 +18,9 @@ using UnityEngine.SceneManagement;
 
 public class GameLobby : MonoBehaviour {
 
-
     private const string KEY_RELAY_JOIN_CODE = "RelayJoinCode";
 
-
     public static GameLobby Instance { get; private set; }
-
 
     public event EventHandler OnCreateLobbyStarted;
     public event EventHandler OnCreateLobbyFailed;
@@ -33,12 +32,9 @@ public class GameLobby : MonoBehaviour {
         public List<Lobby> lobbyList;
     }
 
-
-
     private Lobby joinedLobby;
     private float heartbeatTimer;
     private float listLobbiesTimer;
-
 
     private void Awake() {
         Instance = this;
@@ -79,7 +75,6 @@ public class GameLobby : MonoBehaviour {
         }
     }
 
-
     private void HandleHeartbeat() {
         if (IsLobbyHost()) {
             heartbeatTimer -= Time.deltaTime;
@@ -113,7 +108,6 @@ public class GameLobby : MonoBehaviour {
         }
     }
 
-
     private async Task<Allocation> AllocateRelay() {
         try {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(GameMultiplayer.MAX_PLAYER_AMOUNT - 1);
@@ -146,7 +140,6 @@ public class GameLobby : MonoBehaviour {
             return default;
         }
     }
-
 
     public async void CreateLobby(string lobbyName, bool isPrivate) {
         OnCreateLobbyStarted?.Invoke(this, EventArgs.Empty);
@@ -262,7 +255,6 @@ public class GameLobby : MonoBehaviour {
             }
         }
     }
-
 
     public Lobby GetLobby() {
         return joinedLobby;

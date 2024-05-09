@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+// ConnectingUI.cs
+// handles ConnectingUI canvas in LobbyScene
+
 using UnityEngine;
 
 public class ConnectingUI : MonoBehaviour {
-
-
 
     private void Start() {
         GameMultiplayer.Instance.OnTryingToJoinGame += GameMultiplayer_OnTryingToJoinGame;

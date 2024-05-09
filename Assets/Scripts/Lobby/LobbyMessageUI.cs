@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+// LobbyMessageUI.cs
+// handles LobbyMessageUI canvas in LobbyScene
+
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,10 +8,8 @@ using UnityEngine.UI;
 
 public class LobbyMessageUI : MonoBehaviour {
 
-
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private Button closeButton;
-
 
     private void Awake() {
         closeButton.onClick.AddListener(Hide);
