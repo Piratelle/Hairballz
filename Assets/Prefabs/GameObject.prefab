@@ -10,15 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6148965360904872828}
   - component: {fileID: 6148965360904872829}
+  - component: {fileID: 6148965360904872830}
   - component: {fileID: 6148965360904872803}
   - component: {fileID: 6148965360904872831}
   - component: {fileID: 2085745511738166509}
   - component: {fileID: 3203494482939947652}
   - component: {fileID: 6626094530483778821}
   - component: {fileID: 4946644942885601149}
-  - component: {fileID: 9200421059537265578}
-  - component: {fileID: -5879022108817884281}
-  - component: {fileID: -7175520809148680181}
   - component: {fileID: -2988707783881250234}
   m_Layer: 3
   m_Name: GameObject
@@ -35,7 +33,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6148965360904872824}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -94,6 +92,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6148965360904872830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6148965360904872824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7046d60882733f345a183d9d2b732fed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6148965360904872803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,13 +137,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6b0df07297661b42969cf0091c2ec35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombPrefeb: {fileID: 2097578693872573468, guid: e15faa29d91131f428b6baca6377d47e, type: 3}
-  inputKey: 32
-  spawnPointList:
-  - {x: -6, y: 5}
-  - {x: 6, y: -5}
-  - {x: 6, y: 5}
-  - {x: -6, y: -5}
+  speed: 5
+  upAnimationSprites:
+  - {fileID: -388723784, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: -964168419, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 1290167335, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: -1709660204, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 1033862503, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  downAnimationSprites:
+  - {fileID: -939788857, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: -1406209927, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 2014034313, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: -1325817696, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 903856360, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  leftAnimationSprites:
+  - {fileID: -41019750, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: -1524590033, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 731948741, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 1745073136, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: -1892978496, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  rightAnimationSprites:
+  - {fileID: -1751648070, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 131098690, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 799997448, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 1049534893, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  - {fileID: 471481237, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  idleUpSprite: {fileID: 484282892, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  idleDownSprite: {fileID: 1992000117, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  idleLeftSprite: {fileID: 541033793, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  idleRightSprite: {fileID: 1286125907, guid: ab8f57d1c3fcea6498c49dcb3881c62f, type: 3}
+  animationTime: 0.16666667
+  loop: 1
+  idle: 1
 --- !u!50 &2085745511738166509
 Rigidbody2D:
   serializedVersion: 4
@@ -214,56 +249,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!95 &9200421059537265578
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6148965360904872824}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b1ace806974cf214c9cc381143a05c10, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-5879022108817884281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6148965360904872824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 116d0353b6ae04d4a9d4ea9a8af45b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 9200421059537265578}
---- !u!114 &-7175520809148680181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6148965360904872824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 437737030edfb4f45a69491a147d0e36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 9200421059537265578}
-  rigidbody: {fileID: 2085745511738166509}
-  speed: 5
 --- !u!114 &-2988707783881250234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,13 +256,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6148965360904872824}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a033506aef54f842901791c60783b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bombPrefeb: {fileID: 2097578693872573468, guid: e15faa29d91131f428b6baca6377d47e, type: 3}
+  inputKey: 32
   bombFuseTime: 3
+  bombAmmount: 1
   explosionPrefab: {fileID: 3589147247675278567, guid: 988e7b97bb03c594c9030a07a4d3bd87, type: 3}
   explosionLayerMask:
     serializedVersion: 2

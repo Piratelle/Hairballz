@@ -1,13 +1,8 @@
 using UnityEngine;
-using Unity.Netcode;
 
-public class AnimatedSpriteRenderer : NetworkBehaviour
+public class AnimatedSpriteRenderer : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
-
-
-   // private MovementController movementController;
-
 
     public Sprite idleSprite;
     public Sprite[] animationSprites;
@@ -21,31 +16,23 @@ public class AnimatedSpriteRenderer : NetworkBehaviour
     private void Awake() 
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-     //   movementController = GetComponent<MovementController>();
 
     }
 
     private void OnEnable() 
     {
         spriteRenderer.enabled = true;
-     //   movementController.animationState.OnValueChanged += OnAnimationStateChanged;
     }
 
     private void OnDisable() 
     {
         spriteRenderer.enabled = false;
-   //     movementController.animationState.OnValueChanged -= OnAnimationStateChanged;
     }
 
     private void Start() 
     {
         InvokeRepeating(nameof(NextFrame), animationTime, animationTime);
     }
-
-  //  override public void OnDestroy()
-   // {
-   //     movementController.animationState.OnValueChanged -= OnAnimationStateChanged;
-   // }
 
     private void OnAnimationStateChanged(int oldState, int newState)
     {
