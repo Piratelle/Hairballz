@@ -101,8 +101,29 @@ public class PlayerController : NetworkBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Explosion"))
         {
-            // TODO: Send client id to score tracker etc
+            Bomb bomb = other.GetComponentInParent<Bomb>();
+            if (bomb != null)
+            {
+                int bombOwner = bomb.GetPlayerNum();
+                if (bombOwner != playerNum.Value)
+                {
+                    UpdateScoreServerRpc(bombOwner);
+                }
+            }
             DeathSequenceServerRpc();
+        }
+    }
+
+    [ServerRpc]
+    private void UpdateScoreServerRpc(int scoringPlayer)
+    {
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.IncrementScore(scoringPlayer);
+        }
+        else
+        {
+            Debug.LogError("ScoreManager instance not found!");
         }
     }
 
