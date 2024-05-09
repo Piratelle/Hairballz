@@ -11,26 +11,24 @@ using Unity.Netcode;
 public class PlayerController : NetworkBehaviour
 {
     #region Variables
-    //private NetworkVariable<int> playerNum = new NetworkVariable<int>(0);
-    //private Color[] playerColors = { Color.white, Color.red, Color.blue, Color.yellow };
+    private NetworkVariable<int> playerNum = new NetworkVariable<int>(0, writePerm: NetworkVariableWritePermission.Owner);
 
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject camHolder;
+    [SerializeField] private AudioSource deathAudioSource;
+    //[SerializeField] private AudioClip deathSound;
     [SerializeField] private float speed = 5f;
+
+    //public KeyCode inputUp = KeyCode.W;
+    //public KeyCode inputLeft = KeyCode.A;
+    //public KeyCode inputDown = KeyCode.S;
+    //public KeyCode inputRight = KeyCode.D;
 
     private Rigidbody2D rb;
     private Vector2 direction = Vector2.down;
-
-    public KeyCode inputUp = KeyCode.W;
-    public KeyCode inputLeft = KeyCode.A;
-    public KeyCode inputDown = KeyCode.S;
-    public KeyCode inputRight = KeyCode.D;
-
-    public bool idle;
     private bool isDead;
 
-    public AudioSource deathAudioSource;
-    //public AudioClip deathSound;
+    //public bool idle;
     #endregion
 
     #region Initialization
@@ -55,7 +53,13 @@ public class PlayerController : NetworkBehaviour
         // attach main camera to player if owner (can also just set positions in update if works better)
         Camera.main.transform.SetParent(rb.transform);
 
-        // determine player data here!
+        // learn player details
+        playerNum.Value = GameMultiplayer.Instance.GetPlayerDataIndexFromClientId(OwnerClientId);
+        PlayerData playerData = GameMultiplayer.Instance.GetPlayerDataFromClientId(OwnerClientId);
+        Color color = GameMultiplayer.Instance.GetPlayerColor(playerData.colorId);
+        Debug.Log("Color detected: " + color);
+        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        //spriteRenderer.color = color;
     }
     #endregion
 
@@ -63,6 +67,11 @@ public class PlayerController : NetworkBehaviour
     private void Update()
     {
         // Input handling
+        //if (Input.GetKey(inputUp)) direction = Vector2.up;
+        //else if (Input.GetKey(inputDown)) direction = Vector2.down;
+        //else if (Input.GetKey(inputLeft)) direction = Vector2.left;
+        //else if (Input.GetKey(inputRight)) direction = Vector2.right;
+        //else direction = Vector2.zero;
         direction.x = Input.GetAxisRaw("Horizontal");
         direction.y = Input.GetAxisRaw("Vertical");
 
@@ -128,8 +137,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     public int GetPlayerNum() {
-        //return playerNum.Value;
-        return 0;
+        return playerNum.Value;
     }
     #endregion
 

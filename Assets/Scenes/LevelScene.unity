@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 479169135}
   m_Layer: 6
   m_Name: Destructables
-  m_TagString: Untagged
+  m_TagString: DestructableTilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -660,6 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 8538437223600044676, guid: f44f703b28bca9a4bb0d1b692f28da69, type: 3}
+  level: {fileID: 79505804}
 --- !u!1 &738783434
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,7 +678,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &738783435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1252,7 +1253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1790643062
 Transform:
   m_ObjectHideFlags: 0

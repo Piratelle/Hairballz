@@ -25,8 +25,10 @@ public class GameManager : NetworkBehaviour {
     }
 
     [SerializeField] private Transform playerPrefab;
+    [SerializeField] private Level level;
 
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
+    private NetworkVariable<int> levelSeed = new NetworkVariable<int>(0);
     private bool isLocalPlayerReady;
     private NetworkVariable<float> countdownToStartTimer = new NetworkVariable<float>(3f);
     private NetworkVariable<float> gamePlayingTimer = new NetworkVariable<float>(0f);
@@ -36,6 +38,7 @@ public class GameManager : NetworkBehaviour {
     private Dictionary<ulong, bool> playerReadyDictionary;
     private Dictionary<ulong, bool> playerPausedDictionary;
     private bool autoTestGamePausedState;
+    private System.Random RND = new System.Random();
 
     private void Awake() {
         Instance = this;
@@ -109,8 +112,19 @@ public class GameManager : NetworkBehaviour {
         }
 
         if (allClientsReady) {
+            levelSeed.Value = RND.Next(100);
+            Debug.Log("Server random completed, seed: " + levelSeed.Value);
+
             state.Value = State.CountdownToStart;
+            PrepareLevelClientRpc();
         }
+    }
+
+    [ClientRpc]
+    private void PrepareLevelClientRpc()
+    {
+        level.PopulateLevel(levelSeed.Value);
+        Debug.Log("Client level population, seed: " + levelSeed.Value);
     }
 
     private void GameInput_OnPauseAction(object sender, EventArgs e) {
