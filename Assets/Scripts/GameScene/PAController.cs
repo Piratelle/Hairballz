@@ -29,7 +29,7 @@ public class PAController : NetworkBehaviour
     {
         GameObject destructableTilemapObject = GameObject.FindGameObjectWithTag("DestructableTilemap");
         PlayerData playerData = GameMultiplayer.Instance.GetPlayerDataFromClientId(OwnerClientId);
-        destructableTiles = destructableTilemapObject.GetComponent<Tilemap>();
+       // destructableTiles = destructableTilemapObject.GetComponent<Tilemap>();
     }
 
     public override void OnNetworkSpawn()
@@ -135,6 +135,11 @@ public class PAController : NetworkBehaviour
     
     }
 
+    // Assuming "Brick" is the tag you want to check for
+string brickTag = "DestructableTilemap";
+
+
+
     private void Explode(Vector2 position, Vector2 direction, int length)
     {
         if(length <= 0)
@@ -148,7 +153,25 @@ public class PAController : NetworkBehaviour
         if(Physics2D.OverlapBox(position, Vector2.one /2f, 0f, explosionLayerMask))
         {
             Debug.Log("Collided with wall");
-            ClearDestructableClientRpc(position);
+            //ClearDestructableServerRpc(position);
+
+            Collider2D hitCollider = Physics2D.OverlapBox(position, Vector2.one / 2f, 0f, explosionLayerMask);
+            if (hitCollider != null && hitCollider.CompareTag(brickTag))
+            {
+                Debug.Log("Collided with a brick");
+        
+                // Get the GameObject of the collided brick
+                GameObject brickObject = hitCollider.gameObject;
+                NetworkObject networkObject = brickObject.GetComponent<NetworkObject>();
+                networkObject.Despawn();
+                //ClearDestructableServerRpc(brickObject);
+            }
+
+
+            
+        
+        
+    
             return;
         }
 
@@ -179,31 +202,6 @@ public class PAController : NetworkBehaviour
         return Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
     }
 
-
-
-
-
-    public Tilemap destructableTiles;
-    public Destructable destructablePrefab;
-
-    [ClientRpc(RequireOwnership = false)]
-    private void ClearDestructableClientRpc(Vector2 position)
-    {
-        Debug.LogWarning("Collided with Destructable");
-        Vector3Int cell = destructableTiles.WorldToCell(position);
-        TileBase tile = destructableTiles.GetTile(cell);
-
-        if (tile != null) 
-        {
-            Debug.LogError("Tile not null");
-            //Instantiate(destructablePrefab, position, Quaternion.identity);//change to network spawn code
-            var instance = Instantiate(destructablePrefab, position,Quaternion.identity);
-            var instanceNetworkObject = instance.GetComponent<NetworkObject>();
-            instanceNetworkObject.Spawn();
-            destructableTiles.SetTile(cell, null);
-        }
-
-    }
 
 
 }
