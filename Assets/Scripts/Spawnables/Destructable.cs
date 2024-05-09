@@ -12,6 +12,14 @@ public class Destructable : NetworkBehaviour
     public float itemSpawnChance = 0.2f;
     public GameObject[] spawnableItems;
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Explosion")
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     private void Start()
     {
         Debug.LogWarning("Bousta DestroyFunction!!!!!!!!!!!!1");
