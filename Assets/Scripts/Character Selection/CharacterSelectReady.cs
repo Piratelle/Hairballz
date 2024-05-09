@@ -39,7 +39,7 @@ public class CharacterSelectReady : NetworkBehaviour {
 
         if (allClientsReady) {
             GameLobby.Instance.DeleteLobby();
-            Loader.LoadNetwork(Loader.Scene.Bomberman_Game);
+            Loader.LoadNetwork(Loader.Scene.LevelScene);
         }
     }
 

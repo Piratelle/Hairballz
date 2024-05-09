@@ -1,18 +1,16 @@
+// PlayerData.cs
+// Serializable struct to contain client-player details
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
-using UnityEngine;
 
 public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable {
-
 
     public ulong clientId;
     public int colorId;
     public FixedString64Bytes playerName;
     public FixedString64Bytes playerId;
-
 
     public bool Equals(PlayerData other) {
         return 

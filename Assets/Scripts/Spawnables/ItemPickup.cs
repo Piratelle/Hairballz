@@ -1,5 +1,7 @@
+// ItemPickup.cs
+// handles power-up acquistion and activation
+
 using UnityEngine;
-using Unity.Netcode;
 using System.Collections;
 
 public class ItemPickup : MonoBehaviour

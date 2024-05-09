@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+// GameOverMenu.cs
+// handles GameOverScene UI
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
