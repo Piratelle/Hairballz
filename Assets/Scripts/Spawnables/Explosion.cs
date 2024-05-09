@@ -7,6 +7,17 @@ public class Explosion : MonoBehaviour
     public AnimatedSpriteRenderer middle;
     public AnimatedSpriteRenderer end;
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Destructable")
+        {
+            // Destroy wall
+        }
+        if (other.tag == "Player") {
+            // return playernum as killer
+        }
+    }
+
     public void SetActiveRenderer(AnimatedSpriteRenderer renderer) 
     {
         start.enabled = renderer == start;

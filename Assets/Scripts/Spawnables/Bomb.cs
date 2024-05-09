@@ -58,6 +58,8 @@ public class Bomb : MonoBehaviour
 
         position += direction;
 
+        
+
         if(Physics2D.OverlapBox(position, Vector2.one /2, 0f, explosionLayerMask))
         {
             ClearDestructable(position);
