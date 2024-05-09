@@ -29,6 +29,7 @@ public class Bomb : MonoBehaviour
     private void Start()
     {
         position = this.transform.position;
+        destructableTiles = GameObject.Find("Grid").GetComponent<Tilemap>();
         explodeAudioSource = GetComponent<AudioSource>();
         Invoke("Detonate", bombFuseTime);
         // Destroy() is handled by BombController serverrpc

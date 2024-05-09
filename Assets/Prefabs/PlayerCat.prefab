@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3859211773
+  GlobalObjectIdHash: 629522749
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -292,7 +292,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 61ec6fae4c20fb14ca03294f941fb8b3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.407
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -391,7 +391,6 @@ MonoBehaviour:
   bombPrefeb: {fileID: 2097578693872573468, guid: 988f00822b37e574e968efd02eb695c4, type: 3}
   inputKey: 32
   bombFuseTime: 3
-  bombStartAmount: 3
   explosionPrefab: {fileID: -887353720654785695, guid: 637ba00d8c5d9c4408316ba1e344e4bc, type: 3}
   explosionLayerMask:
     serializedVersion: 2

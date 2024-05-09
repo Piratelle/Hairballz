@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2374417216
+  GlobalObjectIdHash: 1543720462
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -162,7 +162,7 @@ MonoBehaviour:
   explosionPrefab: {fileID: -887353720654785695, guid: 637ba00d8c5d9c4408316ba1e344e4bc, type: 3}
   explosionLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 64
   explosionDuration: 1
   explosionRadius: 1
   destructableTiles: {fileID: 0}
