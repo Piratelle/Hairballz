@@ -98,10 +98,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleSprite: {fileID: -1855436206, guid: 462a4a7bad3735344a5d96d98586f9f0, type: 3}
-  animationSprites: []
+  animationSprites:
+  - {fileID: -1855436206, guid: 462a4a7bad3735344a5d96d98586f9f0, type: 3}
+  - {fileID: -208624280, guid: 462a4a7bad3735344a5d96d98586f9f0, type: 3}
+  - {fileID: -1646957806, guid: 462a4a7bad3735344a5d96d98586f9f0, type: 3}
+  - {fileID: 1632505780, guid: 462a4a7bad3735344a5d96d98586f9f0, type: 3}
+  - {fileID: -449428088, guid: 462a4a7bad3735344a5d96d98586f9f0, type: 3}
+  - {fileID: -2080119623, guid: 462a4a7bad3735344a5d96d98586f9f0, type: 3}
+  - {fileID: 2024564557, guid: 462a4a7bad3735344a5d96d98586f9f0, type: 3}
+  - {fileID: -1997231060, guid: 462a4a7bad3735344a5d96d98586f9f0, type: 3}
   animationTime: 0.125
   loop: 1
-  idle: 1
+  idle: 0
 --- !u!1 &5736392634977631107
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,10 +208,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleSprite: {fileID: 952675742, guid: a0dc9fc65609bee479f0c307ef539d70, type: 3}
-  animationSprites: []
+  animationSprites:
+  - {fileID: 952675742, guid: a0dc9fc65609bee479f0c307ef539d70, type: 3}
+  - {fileID: 1196192371, guid: a0dc9fc65609bee479f0c307ef539d70, type: 3}
+  - {fileID: -1168398938, guid: a0dc9fc65609bee479f0c307ef539d70, type: 3}
+  - {fileID: -433732458, guid: a0dc9fc65609bee479f0c307ef539d70, type: 3}
+  - {fileID: 2125408382, guid: a0dc9fc65609bee479f0c307ef539d70, type: 3}
+  - {fileID: 915524213, guid: a0dc9fc65609bee479f0c307ef539d70, type: 3}
+  - {fileID: -177367584, guid: a0dc9fc65609bee479f0c307ef539d70, type: 3}
+  - {fileID: -1357814233, guid: a0dc9fc65609bee479f0c307ef539d70, type: 3}
   animationTime: 0.125
   loop: 1
-  idle: 1
+  idle: 0
 --- !u!1 &8294459641768042942
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7701595723870431895}
   - component: {fileID: 2447784527923788447}
+  - component: {fileID: 4909065402519795947}
   - component: {fileID: -887353720654785695}
   m_Layer: 8
   m_Name: Explosion
@@ -266,6 +283,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.25, y: 0.25}
   m_EdgeRadius: 0
+--- !u!114 &4909065402519795947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294459641768042942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 968819887
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &-887353720654785695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,13 +411,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8998387510819069028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdc5aac6672ddfd4d8bd9c9aac1b7ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   idleSprite: {fileID: 1450249988, guid: 6523ad14cef48524ebdd9e09cf7a9313, type: 3}
-  animationSprites: []
+  animationSprites:
+  - {fileID: 1450249988, guid: 6523ad14cef48524ebdd9e09cf7a9313, type: 3}
+  - {fileID: 1218194333, guid: 6523ad14cef48524ebdd9e09cf7a9313, type: 3}
+  - {fileID: 681973102, guid: 6523ad14cef48524ebdd9e09cf7a9313, type: 3}
+  - {fileID: 812962422, guid: 6523ad14cef48524ebdd9e09cf7a9313, type: 3}
+  - {fileID: -926963326, guid: 6523ad14cef48524ebdd9e09cf7a9313, type: 3}
+  - {fileID: 2095763693, guid: 6523ad14cef48524ebdd9e09cf7a9313, type: 3}
+  - {fileID: -204901672, guid: 6523ad14cef48524ebdd9e09cf7a9313, type: 3}
+  - {fileID: -44054833, guid: 6523ad14cef48524ebdd9e09cf7a9313, type: 3}
   animationTime: 0.125
   loop: 1
-  idle: 1
+  idle: 0
