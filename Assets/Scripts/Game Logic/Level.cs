@@ -24,10 +24,10 @@ public class Level : MonoBehaviour
 
     // Set tile pre-fabs in Unity editor
     [Header("Tiles")]
-    [SerializeField] private Tile solidWall;
-    [SerializeField] private Tile destructWall;
-    [SerializeField] private Tile path;
-    [SerializeField] private Tile[] baseTiles;
+    [SerializeField] private TileBase solidWall;
+    [SerializeField] private TileBase destructWall;
+    [SerializeField] private TileBase path;
+    [SerializeField] private TileBase[] baseTiles;
 
     [Header("Behavior")]
     [SerializeField] private float density = 0.6f;
@@ -49,6 +49,11 @@ public class Level : MonoBehaviour
             return playerSpawnPoints[playerNum];
         }
         return new Vector3(0, 0, 0);
+    }
+
+    public Tilemap GetDestructableMap()
+    {
+        return deTilemap;
     }
     #endregion
 
@@ -175,7 +180,7 @@ public class Level : MonoBehaviour
             // learn player-specific traits
             BaseInfo b = bases[p];
             playerSpawnPoints.Add(GetSpawnPoint(b));
-            Tile bgTile = baseTiles[p % baseTiles.Length];
+            TileBase bgTile = baseTiles[p % baseTiles.Length];
 
             for (int x = b.XMin(); x < b.XMax(); x++)
             {

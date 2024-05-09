@@ -16,7 +16,7 @@ public class Destructable : NetworkBehaviour
     {
         if (other.tag == "Explosion")
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -35,12 +35,13 @@ public class Destructable : NetworkBehaviour
 
     }
 
-    /*private void OnDestroy()
+    /*public override void OnDestroy()
     {
         if(spawnableItems.Length > 0 && Random.value < itemSpawnChance)
         {
             int randomIndex = Random.Range(0, spawnableItems.Length);
             Instantiate(spawnableItems[randomIndex], transform.position, Quaternion.identity);
         }
+        base.OnDestroy();
     }*/
 }

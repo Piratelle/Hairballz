@@ -20,8 +20,8 @@ public class Bomb : MonoBehaviour
     // TODO: add sounds
 
     [Header("Destructable")]
-    public Tilemap destructableTiles;
-    public Destructable destructiblePrefab;
+    [SerializeField] private Tilemap destructableTiles;
+    [SerializeField] private Destructable destructiblePrefab;
 
     [SerializeField] private AudioSource explodeAudioSource;
     [SerializeField] private AudioClip explodeSound;
@@ -29,7 +29,8 @@ public class Bomb : MonoBehaviour
     private void Start()
     {
         position = this.transform.position;
-        destructableTiles = GameObject.Find("Grid").GetComponent<Tilemap>();
+        //destructableTiles = GameObject.Find("Grid").GetComponent<Tilemap>();
+        destructableTiles = GameManager.Instance.Level.GetDestructableMap();
         explodeAudioSource = GetComponent<AudioSource>();
         Invoke("Detonate", bombFuseTime);
         // Destroy() is handled by BombController serverrpc
