@@ -33,21 +33,30 @@ public class Level : MonoBehaviour
     [SerializeField] private float density = 0.6f;
 
     private int xMin;
-    //private int xMax;
     private int yMin;
-    //private int yMax;
-
     private int xGridMin;
-    //private int xGridMax;
     private int yGridMin;
-    //private int yGridMax;
+
+    private List<Vector3> playerSpawnPoints;
+    #endregion
+
+    #region Accessors & Mutators
+    // 0-indexed way of retrieving spawn points after level is generated
+    public Vector3 GetSpawnPoint(int playerNum)
+    {
+        if (playerNum < playerSpawnPoints.Count)
+        {
+            return playerSpawnPoints[playerNum];
+        }
+        return new Vector3(0, 0, 0);
+    }
     #endregion
 
     #region Player Base
     private struct BaseInfo
     {
         public readonly Rect rect;
-        public readonly Vector2Int spawnPos;
+        public readonly Vector2Int outerPos;
         public readonly Vector2Int innerPos;
 
         public BaseInfo(float xMin, float yMin, int side, int playerNum)
@@ -59,7 +68,7 @@ public class Level : MonoBehaviour
             float top = rect.yMax - 1;
             float bottom = rect.yMin;
 
-            spawnPos = new Vector2Int((int) ((playerNum % 2 == 0) ? left : right), (int) (playerNum < 2 ? top : bottom));
+            outerPos = new Vector2Int((int) ((playerNum % 2 == 0) ? left : right), (int) (playerNum < 2 ? top : bottom));
             innerPos = new Vector2Int((int) ((playerNum % 2 == 0) ? right : left), (int) (playerNum < 2 ? bottom : top));
         }
 
@@ -67,6 +76,13 @@ public class Level : MonoBehaviour
         public int XMax() { return (int) rect.xMax; }
         public int YMin() { return (int) rect.yMin; }
         public int YMax() { return (int) rect.yMax; }
+    }
+
+    private Vector3 GetSpawnPoint(BaseInfo b)
+    {
+        Vector3 outer = bgTilemap.GetCellCenterWorld(new Vector3Int(b.outerPos.x, b.outerPos.y, 0));
+        Vector3 inner = bgTilemap.GetCellCenterWorld(new Vector3Int(b.innerPos.x, b.innerPos.y, 0));
+        return (outer + inner) / 2;
     }
     #endregion
 
@@ -153,10 +169,12 @@ public class Level : MonoBehaviour
         // build player bases
         // 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right
         //Debug.Log("Building bases...");
+        playerSpawnPoints.Clear();
         for (int p = 0; p < bases.Count; p++)
         {
             // learn player-specific traits
             BaseInfo b = bases[p];
+            playerSpawnPoints.Add(GetSpawnPoint(b));
             Tile bgTile = baseTiles[p % baseTiles.Length];
 
             for (int x = b.XMin(); x < b.XMax(); x++)
