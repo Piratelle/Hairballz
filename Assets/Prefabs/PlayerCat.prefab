@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: 7924014879196497522}
   - component: {fileID: 4014872647544089006}
   - component: {fileID: 809586850272274254}
+  - component: {fileID: 2335878241519358260}
   m_Layer: 3
   m_Name: PlayerCat
   m_TagString: Player
@@ -279,8 +280,6 @@ MonoBehaviour:
   camHolder: {fileID: 8111794851003189534}
   deathAudioSource: {fileID: 809586850272274254}
   speed: 5
-  bombPrefab: {fileID: 2097578693872573468, guid: 988f00822b37e574e968efd02eb695c4, type: 3}
-  inputBomb: 32
 --- !u!82 &809586850272274254
 AudioSource:
   m_ObjectHideFlags: 0
@@ -377,6 +376,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2335878241519358260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538437223600044667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f8e1db6d52b0994cadeaaf741dc9aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombPrefeb: {fileID: 2097578693872573468, guid: 988f00822b37e574e968efd02eb695c4, type: 3}
+  inputKey: 32
+  bombFuseTime: 3
+  bombStartAmount: 3
+  explosionPrefab: {fileID: -887353720654785695, guid: 637ba00d8c5d9c4408316ba1e344e4bc, type: 3}
+  explosionLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  explosionDuration: 1
+  explosionRadius: 1
+  destructableTiles: {fileID: 0}
+  destructablePrefab: {fileID: 725890053683425126, guid: a3cb91c0c1f6fe7498073274e54f6e99, type: 3}
 --- !u!1001 &1464675655476895112
 PrefabInstance:
   m_ObjectHideFlags: 0

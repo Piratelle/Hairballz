@@ -40,10 +40,10 @@ public class PlayerController : NetworkBehaviour
             camHolder.SetActive(false);
             return;
         }
-        Initialize();
+        //Initialize();
     }
 
-    private void Initialize() {
+    private void Start() {
         // get components
         deathAudioSource = GetComponent<AudioSource>();
         //deathSound = GetComponent<AudioClip>();
@@ -56,10 +56,15 @@ public class PlayerController : NetworkBehaviour
         // learn player details
         playerNum.Value = GameMultiplayer.Instance.GetPlayerDataIndexFromClientId(OwnerClientId);
         PlayerData playerData = GameMultiplayer.Instance.GetPlayerDataFromClientId(OwnerClientId);
+
+        // set player color
         Color color = GameMultiplayer.Instance.GetPlayerColor(playerData.colorId);
         Debug.Log("Color detected: " + color);
-        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        //SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         //spriteRenderer.color = color;
+
+        // set spawn position
+        transform.position = GameManager.Instance.Level.GetSpawnPoint(playerNum.Value);
     }
     #endregion
 

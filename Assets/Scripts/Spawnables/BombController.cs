@@ -1,11 +1,10 @@
 /* Originally from David, modified by Jonah
- * Controls bomb intantiation
+ * Controls bomb instantiation
  */
 
-using System.Collections;
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.Tilemaps;
+//using UnityEngine.Tilemaps;
 
 public class BombController : NetworkBehaviour
 {
@@ -24,17 +23,17 @@ public class BombController : NetworkBehaviour
     [SerializeField] private int explosionRadius = 1;
 
     [Header("Destructable")]
-    public Tilemap destructableTiles;
-    public Destructable destructiblePrefab;
+    //public Tilemap destructableTiles;
+    public Destructable destructablePrefab;
 
     public override void OnNetworkSpawn() {
         base.OnNetworkSpawn();
         if(!IsOwner) {
-            this.enabled = false;
+            enabled = false;
             return;
         }
-        this.explosionRadius = 1;
-        this.playerNum = GetComponent<PlayerController>().GetPlayerNum();
+        explosionRadius = 1;
+        playerNum = GetComponent<PlayerController>().GetPlayerNum();
     }
 
     private void OnEnable() 
@@ -71,11 +70,11 @@ public class BombController : NetworkBehaviour
     }
 
     public void IncrementExplosionRadius() {
-        this.explosionRadius++;
+        explosionRadius++;
     }
 
     public int GetExplosionRadius() {
-        return this.explosionRadius;
+        return explosionRadius;
     }
 
 }

@@ -25,7 +25,7 @@ public class GameManager : NetworkBehaviour {
     }
 
     [SerializeField] private Transform playerPrefab;
-    [SerializeField] private Level level;
+    [SerializeField] public Level Level;
 
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
     private NetworkVariable<int> levelSeed = new NetworkVariable<int>(0);
@@ -123,7 +123,7 @@ public class GameManager : NetworkBehaviour {
     [ClientRpc]
     private void PrepareLevelClientRpc()
     {
-        level.PopulateLevel(levelSeed.Value);
+        Level.PopulateLevel(levelSeed.Value);
         Debug.Log("Client level population, seed: " + levelSeed.Value);
     }
 
