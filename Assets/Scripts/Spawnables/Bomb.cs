@@ -23,22 +23,25 @@ public class Bomb : MonoBehaviour
     public Tilemap destructableTiles;
     public Destructable destructiblePrefab;
 
+    [SerializeField] private AudioSource explodeAudioSource;
+    [SerializeField] private AudioClip explodeSound;
+
     private void Start()
     {
         position = this.transform.position;
+        explodeAudioSource = GetComponent<AudioSource>();
         Invoke("Detonate", bombFuseTime);
         // Destroy() is handled by BombController serverrpc
     }
 
     private void Detonate() {
         GetComponent<SpriteRenderer>().enabled = false;
+        explodeAudioSource.clip = explodeSound;
+        explodeAudioSource.Play();
         Explosion explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
+        explosion.GetComponent<Explosion>().SetPlayerNum(playerNum);
         explosion.SetActiveRenderer(explosion.start);
         explosion.DestroyAfter(explosionDuration);
-
-        // TODO: send client data to explosion for score tracking
-
-        // TODO: play explosion sound
 
         Explode(position, Vector2.up, explosionRadius);
         Explode(position, Vector2.down, explosionRadius);

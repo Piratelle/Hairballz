@@ -13,7 +13,8 @@ public class BombController : NetworkBehaviour
     public GameObject bombPrefeb;
     public KeyCode inputKey = KeyCode.Space;
     public float bombFuseTime = 3f;
-    public int bombStartAmount = 3;
+    private float bombRefreshTime = 4f;
+    private int bombAmount = 3;
     private int bombsRemaining;
 
     [Header ("Explosion")]
@@ -38,12 +39,11 @@ public class BombController : NetworkBehaviour
 
     private void OnEnable() 
     {
-        bombsRemaining = bombStartAmount;
+        bombsRemaining = bombAmount;
     }
 
     private void Update() 
     {
-        if (bombsRemaining == 1) this.explosionRadius = 3;
         if (bombsRemaining > 0 && Input.GetKeyDown(inputKey) && IsOwner) 
         {
             bombsRemaining--;
@@ -51,6 +51,7 @@ public class BombController : NetworkBehaviour
             position.x = Mathf.Round(position.x);
             position.y = Mathf.Round(position.y);
             PlaceBombServerRpc(position, explosionRadius);
+            Invoke("RefreshBomb", bombRefreshTime);
         }
     }
 
@@ -64,9 +65,13 @@ public class BombController : NetworkBehaviour
         Destroy(bomb, bombFuseTime + explosionDuration);
     }
 
+    private void RefreshBomb() {
+        bombsRemaining++;
+    }
+
     public void AddBomb()
     {
-        bombsRemaining++;
+        bombAmount++;
     }
 
     public void IncrementExplosionRadius() {
