@@ -1,12 +1,9 @@
 // NetworkUI.cs
 // Basic UI for playing the game, choose between host/client
 
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class TestNetworkUI : NetworkBehaviour
 {
@@ -20,23 +17,17 @@ public class TestNetworkUI : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        levelSeed.OnValueChanged += OnLevelSeedChanged;
         if (IsServer)
         {
             System.Random RND = new System.Random();
             levelSeed.Value = RND.Next(100);
+            //Debug.Log("Server random completed, seed: " + levelSeed.Value);
         }
     }
 
     private void Awake() {
-        hostBtn.onClick.AddListener(() => {
-            NetworkManager.Singleton.StartHost();
-            this.enabled = false;
-        });
-        clientBtn.onClick.AddListener(() => {
-            NetworkManager.Singleton.StartClient();
-            this.enabled = false;
-        });
+        hostBtn.onClick.AddListener(() => { StartGame(true); });
+        clientBtn.onClick.AddListener(() => { StartGame(); });
     }
 
     private void Update() {
@@ -45,8 +36,12 @@ public class TestNetworkUI : NetworkBehaviour
         // playerCount.Value = NetworkManager.Singleton.ConnectedClients.Count;
     }
 
-    private void OnLevelSeedChanged(int previousValue, int newValue)
+    private void StartGame(bool isHost = false)
     {
-        level.PopulateLevel(newValue);
+        if (isHost) { NetworkManager.Singleton.StartHost(); }
+        else { NetworkManager.Singleton.StartClient(); }
+        level.PopulateLevel(levelSeed.Value);
+        enabled = false;
+        //Debug.Log("Starting game! Seed = " + levelSeed.Value);
     }
 }
