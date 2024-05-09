@@ -24,15 +24,18 @@ public class Destructable : NetworkBehaviour
     {
         Debug.LogWarning("Bousta DestroyFunction!!!!!!!!!!!!1");
         //Destroy (gameObject, destructionTime);
-        StartCoroutine(DestructableTimer(NetworkObject));
+        StartCoroutine(DestructableTimer());
     }
 
-    private IEnumerator DestructableTimer(NetworkObject instanceNetworkObject2)
+    private IEnumerator DestructableTimer()
     {
         yield return new WaitForSeconds(destructionTime);//explosion countdown
-        instanceNetworkObject2.DontDestroyWithOwner = true;
-        instanceNetworkObject2.Despawn();
-
+        if(spawnableItems.Length > 0 && Random.value < itemSpawnChance)
+        {
+            int randomIndex = Random.Range(0, spawnableItems.Length);
+            Instantiate(spawnableItems[randomIndex], transform.position, Quaternion.identity);
+        }
+        Destroy(this.gameObject);
     }
 
     /*public override void OnDestroy()
