@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1543720462
+  GlobalObjectIdHash: 2374417216
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -167,6 +167,8 @@ MonoBehaviour:
   explosionRadius: 1
   destructableTiles: {fileID: 0}
   destructiblePrefab: {fileID: 725890053683425126, guid: a3cb91c0c1f6fe7498073274e54f6e99, type: 3}
+  explodeAudioSource: {fileID: 255617200136320771}
+  explodeSound: {fileID: 8300000, guid: 07b6fa8b7a9774f46a7990186bbc7d74, type: 3}
 --- !u!82 &255617200136320771
 AudioSource:
   m_ObjectHideFlags: 0
@@ -177,9 +179,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 07b6fa8b7a9774f46a7990186bbc7d74, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 10ce8272fcf135d468ac75afff0f90a4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.252
   m_Pitch: 1
   Loop: 0
   Mute: 0
