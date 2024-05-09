@@ -63,6 +63,7 @@ public class PlayerController : NetworkBehaviour
         deathAudioSource = GetComponent<AudioSource>();
         deathSound = GetComponent<AudioClip>();
         rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Dynamic; // fix for annoying collision-breaking bug of doom
         // attach main camera to player if owner (can also just set positions in update if works better)
         Camera.main.transform.SetParent(rb.transform);
 
