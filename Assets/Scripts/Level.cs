@@ -37,7 +37,7 @@ public class Level : MonoBehaviour
     private int xGridMin;
     private int yGridMin;
 
-    private List<Vector3> playerSpawnPoints;
+    private List<Vector3> playerSpawnPoints = new();
     #endregion
 
     #region Accessors & Mutators
@@ -119,7 +119,7 @@ public class Level : MonoBehaviour
         yGridMin = yGridMax - gridHeight;
 
         // initialize
-        //PopulateLevel(0); // remove for networking! add in for testing!
+        PopulateLevel(0); // remove for networking! add in for testing!
     }
 
     // rebuild the grid
