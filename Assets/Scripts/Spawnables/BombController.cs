@@ -53,6 +53,16 @@ public class BombController : NetworkBehaviour
             PlaceBombServerRpc(position, explosionRadius);
             Invoke("RefreshBomb", bombRefreshTime);
         }
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        if (UIController.instance != null)
+        {
+            UIController.instance.UpdateBombCountUI(bombsRemaining, bombAmount);
+            UIController.instance.UpdateExplosionRadiusUI(explosionRadius);
+        }
     }
 
     // New bomb spawn idea; create a script for bomb, have RPC that just spawns a bomb
@@ -73,10 +83,12 @@ public class BombController : NetworkBehaviour
     {
         bombAmount++;
         bombsRemaining++;
+        UpdateUI();
     }
 
     public void IncrementExplosionRadius() {
         explosionRadius++;
+        UpdateUI();
     }
 
     public int GetBombAmount() {
