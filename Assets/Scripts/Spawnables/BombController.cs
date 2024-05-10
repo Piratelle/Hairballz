@@ -72,6 +72,7 @@ public class BombController : NetworkBehaviour
     public void AddBomb()
     {
         bombAmount++;
+        bombsRemaining++;
     }
 
     public void IncrementExplosionRadius() {
