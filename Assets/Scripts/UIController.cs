@@ -8,11 +8,10 @@ using static System.Net.Mime.MediaTypeNames;
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
-    public int bombup = 1;
-    public int speedup = 1;
-    public int blastup = 1;
+    public int bombup;
+    public int speedup;
+    public int blastup;
     public TextMeshProUGUI bombupText;
-    public TextMeshProUGUI speedupText;
     public TextMeshProUGUI blastupText;
 
     void Awake()
@@ -28,27 +27,13 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void AddItem(ItemPickup.ItemType type)
+    public void UpdateBombCountUI(int bombsRemaining, int totalBombs)
     {
-        switch (type)
-        {
-            case ItemPickup.ItemType.ExtraBomb:
-                bombup++;
-                UpdateItemCountUI(bombupText, bombup);
-                break;
-            case ItemPickup.ItemType.BlastRadius:
-                blastup++;
-                UpdateItemCountUI(blastupText, blastup);
-                break;
-            case ItemPickup.ItemType.SpeedIncrease:
-                speedup++;
-                UpdateItemCountUI(speedupText, speedup);
-                break;
-        }
+        bombupText.text = bombsRemaining.ToString();
     }
 
-    void UpdateItemCountUI(TextMeshProUGUI uiText, int count)
+    public void UpdateExplosionRadiusUI(int radius)
     {
-        uiText.text = count.ToString();
+        blastupText.text = radius.ToString();
     }
 }
