@@ -8,9 +8,9 @@ using static System.Net.Mime.MediaTypeNames;
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
-    public int bombup = 0;
-    public int speedup = 0;
-    public int blastup = 0;
+    public int bombup = 1;
+    public int speedup = 1;
+    public int blastup = 1;
     public TextMeshProUGUI bombupText;
     public TextMeshProUGUI speedupText;
     public TextMeshProUGUI blastupText;

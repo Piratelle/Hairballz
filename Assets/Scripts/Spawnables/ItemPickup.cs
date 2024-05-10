@@ -69,7 +69,7 @@ public class ItemPickup : MonoBehaviour
         if (fogOfWar != null)
         {
             fogOfWar.SetActive(false);
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(3);
             fogOfWar.SetActive(true);
         }
     }
