@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class LobbyListSingleUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro lobbyNameText;
+    [SerializeField] private TMP_Text lobbyNameText;
 
     private Lobby lobby;
 
