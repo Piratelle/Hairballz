@@ -79,6 +79,10 @@ public class BombController : NetworkBehaviour
         explosionRadius++;
     }
 
+    public int GetBombAmount() {
+        return bombAmount;
+    }
+
     public int GetExplosionRadius() {
         return explosionRadius;
     }
